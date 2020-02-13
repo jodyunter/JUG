@@ -10,7 +10,7 @@ namespace Data.DAO
         public long Id { get; set; }
         public string Name { get; set; }
         public int Skill { get; set; }
-        public TeamType TeamType { get { return TeamType.BaseTeam; } }
+        public TeamType TeamType { get; set; }
         
     }
 }

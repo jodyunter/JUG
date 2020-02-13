@@ -21,7 +21,10 @@ namespace Services.Impl
 
         public ITeamViewModel Create(string name, int skill)
         {
-            teamDS.Save(ITeam team);
+            var team = new Team() { Name = name, Skill = skill };
+            team = (Team)teamDS.Save(team);
+
+            return Mapper.Map<ITeamViewModel>(team);
         }
 
 
@@ -36,7 +39,7 @@ namespace Services.Impl
 
         public ITeam GetDomainObjectById(long id)
         {
-            var teamDAO = teamDS.GetById(id, TeamType.BaseTeam);
+            var teamDAO = teamDS.GetById(id, Domain.Teams.TeamType.BaseTeam);
 
             return Mapper.Map<Team>(teamDAO);
         }

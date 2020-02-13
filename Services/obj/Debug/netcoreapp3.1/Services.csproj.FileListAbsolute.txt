@@ -1,0 +1,13 @@
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Domain.dll
+C:\dev\temp\JUG\Services\obj\Debug\netcoreapp3.1\Services.AssemblyInfoInputs.cache
+C:\dev\temp\JUG\Services\obj\Debug\netcoreapp3.1\Services.AssemblyInfo.cs
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Services.deps.json
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Services.dll
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Services.pdb
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Data.dll
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Data.pdb
+C:\dev\temp\JUG\Services\bin\Debug\netcoreapp3.1\Domain.pdb
+C:\dev\temp\JUG\Services\obj\Debug\netcoreapp3.1\Services.csprojAssemblyReference.cache
+C:\dev\temp\JUG\Services\obj\Debug\netcoreapp3.1\Services.csproj.CopyComplete
+C:\dev\temp\JUG\Services\obj\Debug\netcoreapp3.1\Services.dll
+C:\dev\temp\JUG\Services\obj\Debug\netcoreapp3.1\Services.pdb

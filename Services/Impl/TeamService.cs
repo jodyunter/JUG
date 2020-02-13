@@ -21,7 +21,7 @@ namespace Services.Impl
 
         public ITeamViewModel Create(string name, int skill)
         {
-            throw new NotImplementedException();
+            teamDS.Save(ITeam team);
         }
 
 
@@ -36,7 +36,7 @@ namespace Services.Impl
 
         public ITeam GetDomainObjectById(long id)
         {
-            var teamDAO = teamDS.GetById(id);
+            var teamDAO = teamDS.GetById(id, TeamType.BaseTeam);
 
             return Mapper.Map<Team>(teamDAO);
         }

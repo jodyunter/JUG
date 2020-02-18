@@ -9,10 +9,15 @@ namespace Data
     public class JUGContext:DbContext
     {
         public DbSet<TeamDAO> Teams { get; set; }
+        public string ConnectionString { get; set; }
 
+        public JUGContext(string connectionString):base()
+        {
+            ConnectionString = connectionString;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           optionsBuilder.UseSqlite("Data Source=D:/data/teamtest.db");
+           optionsBuilder.UseSqlServer(ConnectionString);
         }
     }
 }

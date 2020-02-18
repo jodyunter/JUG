@@ -37,5 +37,10 @@ namespace Domain.Games
             NormalPeriods = normalPeriods;
             MaxOverTimePeriods = maxOverTimePeriods;
         }
+
+        public void Play(Random random)
+        {
+
+        }
     }
 }

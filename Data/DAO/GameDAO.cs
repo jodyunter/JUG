@@ -10,7 +10,7 @@ namespace Data.DAO
         public int GameNo { get; set; }
         public int Day { get; set; }
         public int Year { get; set; }
-        public int Period { get; set; }
+        public int Period { get; set; }        
         public TeamDAO Home { get; set; }
         public int HomeScore { get; set; }
         public TeamDAO Away { get; set; }

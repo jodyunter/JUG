@@ -51,7 +51,7 @@ namespace JUG.ConsoleUI.App
         public void SetupServices()
         {
             TeamService = new TeamService(AutoMapperConfig.Config, TeamDataService);
-            GameService = new GameService(AutoMapperConfig.Config, TeamService, GameDataService);
+            GameService = new GameService(AutoMapperConfig.Config, TeamService, GameDataService, TeamDataService);
         }
     }
 }

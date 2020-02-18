@@ -14,11 +14,13 @@ namespace Services.Impl
     {        
         public ITeamService TeamService { get; set; }
         public IDataService<GameDAO> gameDS { get; set; }
+        public IDataService<TeamDAO> teamDS { get; set; }
 
-        public GameService(MapperConfiguration config, ITeamService teamService, IDataService<GameDAO> data) : base(config)
+        public GameService(MapperConfiguration config, ITeamService teamService, IDataService<GameDAO> data, IDataService<TeamDAO> teamData) : base(config)
         {
             TeamService = teamService;
             gameDS = data;
+            teamDS = teamData;
         }
         public IGameViewModel Create(ITeamViewModel home, ITeamViewModel away)
         {
@@ -37,24 +39,42 @@ namespace Services.Impl
             var game = new Game(gameNo, day, year, 1, homeTeam, 0, awayTeam, 0, false, false, canTie, minPeriods, maxOverTimePeriods);
 
             //map the model
-            var gameDAO = Mapper.Map<GameDAO>(game);
-
+            var gameDAO = Map(game);
             gameDS.Create(gameDAO);
-
             gameModel.Id = gameDAO.Id;
 
             return gameModel;
         }
 
-        public IGameViewModel Play(IGameViewModel game, Random random)
+        public IGameViewModel Play(IGameViewModel gameModel, Random random)
         {
-            game.HomeScore = 3;
-            game.AwayScore = 2;
-            game.IsStarted = true;
-            game.IsCompelte = true;
-            game.PeriodString = "F";
+            gameModel.HomeScore = 3;
+            gameModel.AwayScore = 2;
+            gameModel.IsStarted = true;
+            gameModel.IsCompelte = true;
+            gameModel.PeriodString = "F";
 
-            return game;
+            var gameDAO = gameDS.GetById(gameModel.Id);
+
+            var game = Mapper.Map<Game>(gameDAO);
+
+            game.Play(new Random());
+
+            gameDAO = Map(game);
+
+            gameDS.Save(gameDAO);
+
+            Mapper.Map<GameViewModel>(game);
+            return gameModel;
+        }
+
+        public GameDAO Map(Game game)
+        {
+            var gameDAO = Mapper.Map<GameDAO>(game);
+            gameDAO.Home = teamDS.GetById(game.Home.Id);
+            gameDAO.Away = teamDS.GetById(game.Away.Id);
+
+            return gameDAO;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Data;
+using Data.DAO;
 using Data.Impl;
 using Services;
 using Services.Config;
@@ -14,7 +15,8 @@ namespace JUG.ConsoleUI.App
         public IGameService GameService { get; set; }
         public ITeamService TeamService { get; set; }
         
-        public ITeamDataService TeamDataService { get; set; }
+        public IDataService<TeamDAO> TeamDataService { get; set; }
+        public IDataService<GameDAO> GameDataService { get; set; }
         public AutoMapperConfig AutoMapperConfig { get; set; }
         public JUGContext db { get; set; }
 
@@ -42,13 +44,14 @@ namespace JUG.ConsoleUI.App
 
         public void SetupDataServices()
         {
-            TeamDataService = new TeamDataService(db);            
+            TeamDataService = new BaseDataService<TeamDAO>(db);
+            GameDataService = new BaseDataService<GameDAO>(db);
         }
 
         public void SetupServices()
         {
             TeamService = new TeamService(AutoMapperConfig.Config, TeamDataService);
-            GameService = new GameService();
+            GameService = new GameService(AutoMapperConfig.Config, TeamService, GameDataService);
         }
     }
 }

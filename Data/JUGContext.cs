@@ -12,6 +12,7 @@ namespace Data
     public class JUGContext:DbContext
     {
         public DbSet<TeamDAO> Teams { get; set; }
+        public DbSet<GameDAO> Games { get; set; }
         public string ConnectionString { get; set; }
 
         public JUGContext():base()
@@ -39,7 +40,8 @@ namespace Data
 
         public void DeleteData()
         {
-            Teams.RemoveRange(Teams);
+            Games.RemoveRange(Games);
+            Teams.RemoveRange(Teams);            
             SaveChanges();
         }
     }

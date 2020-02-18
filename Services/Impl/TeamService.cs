@@ -13,31 +13,22 @@ namespace Services.Impl
 {
     public class TeamService : BaseService, ITeamService
     {
-        ITeamDataService teamDS;        
+        IDataService<TeamDAO> teamDS;        
 
-        public TeamService(MapperConfiguration config, ITeamDataService data):base(config)
+        public TeamService(MapperConfiguration config, IDataService<TeamDAO> data):base(config)
         {
             teamDS = data;
         }
 
         public ITeamViewModel Create(string name, int skill)
         {
-            var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };            
+            var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };
 
-            teamDS.Save(teamDAO);
+            teamDS.Create(teamDAO);
 
             var team = Mapper.Map<Team>(teamDAO);
 
             return Mapper.Map<TeamViewModel>(team);
-        }
-
-        public ITeam CreateDomain(string name, int skill)
-        {
-            var team = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };
-
-            teamDS.Save(team);
-
-            return Mapper.Map<Team>(team);
         }
 
         public void Update(ITeamViewModel model)
@@ -61,7 +52,7 @@ namespace Services.Impl
 
         public ITeam GetDomainObjectById(long id)
         {
-            var teamDAO = teamDS.GetById(id, Domain.Teams.TeamType.BaseTeam);
+            var teamDAO = teamDS.GetById(id);
 
             return Mapper.Map<Team>(teamDAO);
         }

@@ -2,6 +2,7 @@
 {
     public interface IGameViewModel:IViewModel
     {
+        long Id { get; set; }
         string Away { get; set; }
         int AwayScore { get; set; }
         int Day { get; set; }

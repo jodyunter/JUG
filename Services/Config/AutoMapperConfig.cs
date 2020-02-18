@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 using Data.DAO;
+using Domain.Games;
 using Domain.Teams;
 using Services.ViewModels.Teams;
 using System;
@@ -22,6 +23,10 @@ namespace Services.Config
                 cfg.CreateMap<TeamViewModel, Team>();
                 cfg.CreateMap<Team, TeamDAO>();
                 cfg.CreateMap<TeamDAO, Team>();
+                cfg.CreateMap<TeamDAO, ITeam>().As<Team>();
+                cfg.CreateMap<GameDAO, Game>();
+                cfg.CreateMap<Game, GameDAO>();
+                cfg.CreateMap<ITeam, TeamDAO>();
             });
 
             Config.AssertConfigurationIsValid();
@@ -29,3 +34,4 @@ namespace Services.Config
         }
     }
 }
+

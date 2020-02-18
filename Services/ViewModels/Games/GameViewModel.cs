@@ -6,6 +6,7 @@ namespace Services.ViewModels.Games
 {
     public class GameViewModel : IViewModel, IGameViewModel
     {
+        public long Id { get; set; }
         public int GameNo { get; set; }
         public int Day { get; set; }
         public int Year { get; set; }

@@ -25,9 +25,9 @@ namespace Tests.Data
 
             var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = type };
 
-            var teamDataService = new TeamDataService(db);
+            var teamDataService = new BaseDataService<TeamDAO>(db);
 
-            teamDataService.Save(teamDAO);
+            teamDataService.Create(teamDAO);
 
             Assert.Single(db.Teams.ToList());
 
@@ -48,13 +48,13 @@ namespace Tests.Data
 
             var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = type };
 
-            var teamDataService = new TeamDataService(db);
+            var teamDataService = new BaseDataService<TeamDAO>(db);
 
-            teamDataService.Save(teamDAO);
+            teamDataService.Create(teamDAO);
 
             Assert.Single(db.Teams.ToList());
 
-            var currenTeam = teamDataService.GetById(teamDAO.Id, TeamType.BaseTeam);
+            var currenTeam = teamDataService.GetById(teamDAO.Id);
 
             Assert.Equal(name, currenTeam.Name);
             Assert.Equal(skill, currenTeam.Skill);
@@ -68,7 +68,7 @@ namespace Tests.Data
 
             Assert.Single(db.Teams.ToList());
 
-            var updatedTeam = teamDataService.GetById(teamDAO.Id, TeamType.SeasonTeam);
+            var updatedTeam = teamDataService.GetById(teamDAO.Id);
 
             Assert.Equal("Team 2", updatedTeam.Name);
             Assert.Equal(12, updatedTeam.Skill);

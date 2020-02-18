@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Data.DAO
 {
-    public class TeamDAO:ITeamDAO
+    public class TeamDAO:IDAOObject
     {
         public long Id { get; set; }
         public string Name { get; set; }

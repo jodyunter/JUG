@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Data;
+using Data.DAO;
 using Domain;
 using Domain.Teams;
 using Services.ViewModels;
@@ -21,10 +22,20 @@ namespace Services.Impl
 
         public ITeamViewModel Create(string name, int skill)
         {
-            var team = new Team() { Name = name, Skill = skill };
-            team = (Team)teamDS.Save(team);
+            var team = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };            
 
-            return Mapper.Map<ITeamViewModel>(team);
+            teamDS.Save(team);            
+
+            return Mapper.Map<TeamViewModel>(team);
+        }
+
+        public ITeam CreateDomain(string name, int skill)
+        {
+            var team = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };
+
+            teamDS.Save(team);
+
+            return Mapper.Map<Team>(team);
         }
 
 

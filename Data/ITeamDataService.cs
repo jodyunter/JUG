@@ -9,6 +9,6 @@ namespace Data
     public interface ITeamDataService
     {
         ITeamDAO GetById(long Id, TeamType teamType);
-        ITeam Save(ITeam team);
+        void Save(ITeamDAO team);
     }
 }

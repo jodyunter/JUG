@@ -5,6 +5,6 @@ using System.Text;
 namespace Services.ViewModels
 {
     public interface IViewModel
-    {
+    {        
     }
 }

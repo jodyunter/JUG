@@ -1,4 +1,5 @@
 ﻿using JUG.ConsoleUI.App;
+using JUG.ConsoleUI.Views;
 using System;
 
 namespace JUG.ConsoleUI
@@ -18,6 +19,9 @@ namespace JUG.ConsoleUI
             var game = gameService.Create(homeTeam, awayTeam);
 
             game = gameService.Play(game, new Random());
+
+            var view = new SimpleGameView() { Model = game };
+            Console.WriteLine(view.GetDisplayString());
             
             Console.WriteLine("Hello World!");
         }

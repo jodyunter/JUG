@@ -1,0 +1,16 @@
+﻿{
+  "DatabaseToUse": "JodyHomeTest",    
+  "ConnectionStrings": {
+    "JodyWorkTest": {
+      "ConnectionString": "Data Source=localhost;Initial Catalog=jodyjug;Integrated Security=True",
+      "Driver": "NHibernate.Driver.SqlClientDriver",
+      "Provider": "NHibernate.Connection.DriverConnectionProvider"
+    },
+    "JodyHomeTest": {
+      "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=jodyjug;Integrated Security=True",
+      "Driver": "NHibernate.Driver.SqlClientDriver",
+      "Provider": "NHibernate.Connection.DriverConnectionProvider"
+    }
+  }
+
+}

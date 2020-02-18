@@ -12,6 +12,7 @@ namespace Services
         ITeamViewModel Create(string name, int skill);        
         ITeam GetDomainObjectById(long id);
         ITeam CreateDomain(string name, int skill);
+        void Update(ITeamViewModel model);
     }
     
 }

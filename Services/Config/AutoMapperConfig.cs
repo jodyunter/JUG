@@ -12,18 +12,20 @@ namespace Services.Config
     public class AutoMapperConfig
     {
         public IMapper Mapper { get; set; }
+        public MapperConfiguration Config { get; set; }
         public AutoMapperConfig()
         {
 
-            var configuration = new MapperConfiguration(cfg =>
+            Config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Team, TeamViewModel>();
                 cfg.CreateMap<TeamViewModel, Team>();
                 cfg.CreateMap<Team, TeamDAO>();
                 cfg.CreateMap<TeamDAO, Team>();
-            });            
+            });
 
-            configuration.AssertConfigurationIsValid();
+            Config.AssertConfigurationIsValid();
+            
         }
     }
 }

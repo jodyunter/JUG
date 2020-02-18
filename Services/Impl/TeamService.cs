@@ -22,9 +22,11 @@ namespace Services.Impl
 
         public ITeamViewModel Create(string name, int skill)
         {
-            var team = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };            
+            var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };            
 
-            teamDS.Save(team);            
+            teamDS.Save(teamDAO);
+
+            var team = Mapper.Map<Team>(teamDAO);
 
             return Mapper.Map<TeamViewModel>(team);
         }
@@ -36,6 +38,15 @@ namespace Services.Impl
             teamDS.Save(team);
 
             return Mapper.Map<Team>(team);
+        }
+
+        public void Update(ITeamViewModel model)
+        {
+            var team = Mapper.Map<Team>(model);
+
+            var teamDAO = Mapper.Map<TeamDAO>(team);
+
+            teamDS.Save(teamDAO);
         }
 
 

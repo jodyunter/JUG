@@ -1,6 +1,6 @@
 ﻿namespace Services.ViewModels.Games
 {
-    public interface IGameViewModel
+    public interface IGameViewModel:IViewModel
     {
         string Away { get; set; }
         int AwayScore { get; set; }

@@ -12,7 +12,7 @@ namespace Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           optionsBuilder.UseSqlite("Data Source=D:/data/teamtest.db");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=jodyjug;Integrated Security=True");
         }
     }
 }

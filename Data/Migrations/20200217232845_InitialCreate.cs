@@ -11,7 +11,7 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Skill = table.Column<int>(nullable: false),
                     TeamType = table.Column<int>(nullable: false)

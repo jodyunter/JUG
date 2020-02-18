@@ -14,11 +14,16 @@ namespace Services.Config
         public IMapper Mapper { get; set; }
         public AutoMapperConfig()
         {
-            var cfg = new MapperConfigurationExpression();
-            cfg.CreateMap<Team, TeamViewModel>();
-            cfg.CreateMap<TeamViewModel, Team>();
-            cfg.CreateMap<Team, TeamDAO>();
-            cfg.CreateMap<TeamDAO, Team>();
+
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Team, TeamViewModel>();
+                cfg.CreateMap<TeamViewModel, Team>();
+                cfg.CreateMap<Team, TeamDAO>();
+                cfg.CreateMap<TeamDAO, Team>();
+            });            
+
+            configuration.AssertConfigurationIsValid();
         }
     }
 }

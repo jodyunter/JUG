@@ -9,6 +9,6 @@ namespace Services
 {
     public interface IBaseService
     {
-        IMapper Mapper { get; set; }
+        IMapperConfig Mapper { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using System.Text;
 namespace Services.Config
 {
     //modify this so that we explicity have a mapper method.  Sometimes we'll need to have a data service to do the mapping properly or intermediate steps
-    public class MapperConfig
+    public class MapperConfig:IMapperConfig
     {
         public IMapper Mapper { get; set; }
         public MapperConfiguration Config { get; set; }
@@ -53,6 +53,35 @@ namespace Services.Config
         public TeamViewModel TeamViewModelToTeam(Team team)
         {
             return Mapper.Map<TeamViewModel>(team);
+        }
+
+        public Game GameDAOToGame(GameDAO gameDAO)
+        {
+            return Mapper.Map<Game>(gameDAO);
+        }
+
+        public GameViewModel GameToGameViewModel(Game game)
+        {
+            return Mapper.Map<GameViewModel>(game);
+        }
+
+
+        public GameDAO GameToGameDAO(Game game, TeamDAO home, TeamDAO away)
+        {
+            var gameDAO = Mapper.Map<GameDAO>(game);
+            gameDAO.Home = home;
+            gameDAO.Away = away;
+
+            return gameDAO;
+        }
+
+        public void MapGameResults(GameDAO gameDAO, Game game)
+        {
+            gameDAO.HomeScore = game.HomeScore;
+            gameDAO.AwayScore = game.AwayScore;
+            gameDAO.IsComplete = game.IsComplete;
+            gameDAO.IsStarted = game.IsStarted;
+            gameDAO.Period = game.Period;
         }
     }    
 }

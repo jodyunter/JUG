@@ -8,6 +8,7 @@ using Domain.Games;
 using Services.ViewModels.Games;
 using Services.ViewModels.Teams;
 using Services.Impl.Mappers;
+using Services.Config;
 
 namespace Services.Impl
 {
@@ -17,7 +18,7 @@ namespace Services.Impl
         public IDataService<GameDAO> GameDataService { get; set; }
         public IDataService<TeamDAO> TeamDataService { get; set; }
 
-        public GameService(MapperConfiguration config, ITeamService teamService, IDataService<GameDAO> data, IDataService<TeamDAO> teamData) : base(config)
+        public GameService(IMapperConfig config, ITeamService teamService, IDataService<GameDAO> data, IDataService<TeamDAO> teamData) : base(config)
         {
             TeamService = teamService;
             GameDataService = data;
@@ -40,7 +41,7 @@ namespace Services.Impl
             var game = new Game(gameNo, day, year, 1, homeTeam, 0, awayTeam, 0, false, false, canTie, minPeriods, maxOverTimePeriods, GameType.Exhibition);
 
             //map the model
-            var gameDAO = this.MapGameToDAOWithTeam(game);
+            var gameDAO = Mapper.GameToGameDAO(game, TeamDataService.GetById(game.Home.Id), TeamDataService.GetById(game.Away.Id));
             GameDataService.Create(gameDAO);
             gameModel.Id = gameDAO.Id;
 
@@ -52,37 +53,41 @@ namespace Services.Impl
 
             var gameDAO = GameDataService.GetById(gameModel.Id);
 
-            var game = Mapper.Map<Game>(gameDAO);
+            var game = Mapper.GameDAOToGame(gameDAO);
 
             game.Play(new Random());
 
-            this.MapGameResult(gameDAO, game);
+            Mapper.MapGameResults(gameDAO, game);
 
             GameDataService.Save(gameDAO);
-                       
-            var resultModel = Mapper.Map<GameViewModel>(game);
+
+            var resultModel = Mapper.GameToGameViewModel(game);
 
             return resultModel;
         }
 
-        public IGameViewModel Update(IGameViewModel game)
+        public IGameViewModel Update(IGameViewModel gameModel)
         {
-            var gameDAO = GameDataService.GetById(game.Id);
+            var gameDAO = GameDataService.GetById(gameModel.Id);
 
-            if (gameDAO.Home.Id != game.HomeId)
+            if (gameDAO.Home.Id != gameModel.HomeId)
             {
-                var newHomeTeam = TeamDataService.GetById(game.HomeId);
+                var newHomeTeam = TeamDataService.GetById(gameModel.HomeId);
                 //check if null
                 gameDAO.Home = newHomeTeam;
             }
 
-            if (gameDAO.Away.Id != game.AwayId)
+            if (gameDAO.Away.Id != gameModel.AwayId)
             {
-                var newAwayTeam = TeamDataService.GetById(game.AwayId);
+                var newAwayTeam = TeamDataService.GetById(gameModel.AwayId);
                 //check if null
                 gameDAO.Away = newAwayTeam;
             }
 
+            
+
+
+            return null;
             
         }
     }

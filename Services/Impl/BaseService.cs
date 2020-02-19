@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
+using Services.Config;
 using Services.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ namespace Services.Impl
 {
     public class BaseService : IBaseService
     {
-        public IMapper Mapper { get; set; }
+        public IMapperConfig Mapper { get; set; }
 
-        public BaseService(MapperConfiguration config)
+        public BaseService(IMapperConfig config)
         {
-            Mapper = new Mapper(config);
+            Mapper = config;
         }
 
     }

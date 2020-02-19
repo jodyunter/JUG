@@ -40,9 +40,20 @@ namespace Services.Config
             });
 
             Config.AssertConfigurationIsValid();
+
+            Mapper = Config.CreateMapper();
             
         }
-        
+
+        public Team TeamToTeamViewModel(TeamViewModel teamViewModel)
+        {
+            return Mapper.Map<Team>(teamViewModel);
+        }
+
+        public TeamViewModel TeamViewModelToTeam(Team team)
+        {
+            return Mapper.Map<TeamViewModel>(team);
+        }
     }    
 }
 

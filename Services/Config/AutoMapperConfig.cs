@@ -3,6 +3,7 @@ using AutoMapper.Configuration;
 using Data.DAO;
 using Domain.Games;
 using Domain.Teams;
+using Services.ViewModels.Games;
 using Services.ViewModels.Teams;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,19 @@ namespace Services.Config
                 cfg.CreateMap<TeamDAO, ITeam>().As<Team>();
                 cfg.CreateMap<GameDAO, Game>();
                 cfg.CreateMap<Game, GameDAO>();
+                cfg.CreateMap<Game, GameViewModel>()
+                .ForMember(d => d.Home, s => s.MapFrom(p => p.Home.Name))
+                .ForMember(d => d.HomeId, s => s.MapFrom(p => p.Home.Id))
+                .ForMember(d => d.Away, s => s.MapFrom(p => p.Away.Name))
+                .ForMember(d => d.AwayId, s => s.MapFrom(p => p.Away.Id))
+                .ForMember(d => d.PeriodString, s => s.MapFrom(p => p.Period.ToString()));
                 cfg.CreateMap<ITeam, TeamDAO>();
             });
 
             Config.AssertConfigurationIsValid();
             
         }
-    }
+        
+    }    
 }
 

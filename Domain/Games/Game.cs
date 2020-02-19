@@ -1,4 +1,5 @@
 ﻿using Domain.Teams;
+using System;
 
 namespace Domain.Games
 {
@@ -40,7 +41,10 @@ namespace Domain.Games
 
         public void Play(Random random)
         {
-
+            IsStarted = true;
+            IsComplete = true;
+            HomeScore = 3;
+            AwayScore = 1;
         }
     }
 }

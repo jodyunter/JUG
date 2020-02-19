@@ -51,7 +51,7 @@ namespace Services.Impl
             gameModel.HomeScore = 3;
             gameModel.AwayScore = 2;
             gameModel.IsStarted = true;
-            gameModel.IsCompelte = true;
+            gameModel.IsComplete = true;
             gameModel.PeriodString = "F";
 
             var gameDAO = gameDS.GetById(gameModel.Id);
@@ -65,6 +65,7 @@ namespace Services.Impl
             gameDS.Save(gameDAO);
 
             Mapper.Map<GameViewModel>(game);
+
             return gameModel;
         }
 
@@ -76,5 +77,7 @@ namespace Services.Impl
 
             return gameDAO;
         }
+
+
     }
 }

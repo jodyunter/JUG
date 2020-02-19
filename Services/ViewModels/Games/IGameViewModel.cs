@@ -9,7 +9,7 @@
         int GameNo { get; set; }
         string Home { get; set; }
         int HomeScore { get; set; }
-        bool IsCompelte { get; set; }
+        bool IsComplete { get; set; }
         bool IsStarted { get; set; }
         string PeriodString { get; set; }
         int Year { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
+using Services.Config;
 using Services.ViewModels;
 using System;
 using System.Collections.Generic;

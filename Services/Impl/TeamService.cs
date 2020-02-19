@@ -3,6 +3,7 @@ using Data;
 using Data.DAO;
 using Domain;
 using Domain.Teams;
+using Services.Config;
 using Services.ViewModels;
 using Services.ViewModels.Teams;
 using System;
@@ -15,7 +16,7 @@ namespace Services.Impl
     {
         IDataService<TeamDAO> teamDS;        
 
-        public TeamService(MapperConfiguration config, IDataService<TeamDAO> data):base(config)
+        public TeamService(IMapperConfig config, IDataService<TeamDAO> data):base(config)
         {
             teamDS = data;
         }
@@ -26,16 +27,16 @@ namespace Services.Impl
 
             teamDS.Create(teamDAO);
 
-            var team = Mapper.Map<Team>(teamDAO);
+            var team = Mapper.TeamDAOToTeam(teamDAO);
 
-            return Mapper.Map<TeamViewModel>(team);
+            return Mapper.TeamToTeamViewModel(team);
         }
 
         public void Update(ITeamViewModel model)
         {
-            var team = Mapper.Map<Team>(model);
+            var team = Mapper.TeamViewModelToTeam((TeamViewModel)model);
 
-            var teamDAO = Mapper.Map<TeamDAO>(team);
+            var teamDAO = Mapper.TeamToTeamDAO(team);
 
             teamDS.Save(teamDAO);
         }
@@ -45,7 +46,7 @@ namespace Services.Impl
         {
             var teamObject = GetDomainObjectById(id);
 
-            var teamView = Mapper.Map<TeamViewModel>(teamObject);
+            var teamView = Mapper.TeamToTeamViewModel((Team)teamObject);
             
             return teamView;
         }
@@ -54,7 +55,7 @@ namespace Services.Impl
         {
             var teamDAO = teamDS.GetById(id);
 
-            return Mapper.Map<Team>(teamDAO);
+            return Mapper.TeamDAOToTeam(teamDAO);
         }
 
     }

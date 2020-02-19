@@ -12,10 +12,12 @@ using System.Text;
 namespace Services.Config
 {
     //modify this so that we explicity have a mapper method.  Sometimes we'll need to have a data service to do the mapping properly or intermediate steps
+    //maybe change this to mapper service?
     public class MapperConfig:IMapperConfig
     {
         public IMapper Mapper { get; set; }
         public MapperConfiguration Config { get; set; }
+        
         public MapperConfig()
         {
 
@@ -45,12 +47,12 @@ namespace Services.Config
             
         }
 
-        public Team TeamToTeamViewModel(TeamViewModel teamViewModel)
+        public Team TeamViewModelToTeam(TeamViewModel teamViewModel)
         {
             return Mapper.Map<Team>(teamViewModel);
         }
 
-        public TeamViewModel TeamViewModelToTeam(Team team)
+        public TeamViewModel TeamToTeamViewModel(Team team)
         {
             return Mapper.Map<TeamViewModel>(team);
         }
@@ -82,6 +84,16 @@ namespace Services.Config
             gameDAO.IsComplete = game.IsComplete;
             gameDAO.IsStarted = game.IsStarted;
             gameDAO.Period = game.Period;
+        }
+
+        public TeamDAO TeamToTeamDAO(Team team)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Team TeamDAOToTeam(TeamDAO teamDAO)
+        {
+            return Mapper.Map<Team>(teamDAO);
         }
     }    
 }

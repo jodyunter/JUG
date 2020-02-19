@@ -3,10 +3,12 @@
     public interface IGameViewModel:IViewModel
     {
         long Id { get; set; }
+        long AwayId { get; set; }
         string Away { get; set; }
         int AwayScore { get; set; }
         int Day { get; set; }
         int GameNo { get; set; }
+        long HomeId { get; set; }
         string Home { get; set; }
         int HomeScore { get; set; }
         bool IsComplete { get; set; }

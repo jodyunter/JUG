@@ -8,6 +8,7 @@ namespace Services.Impl.Mappers
 {
     public static class GameMappers
     {
+        //should move these into a mapper class with extensions for all mappings
         public static GameDAO MapGameToDAOWithTeam(this GameService gameService, Game game)
         {
             var gameDAO = gameService.Mapper.Map<GameDAO>(game);
@@ -25,5 +26,7 @@ namespace Services.Impl.Mappers
             gameDAO.IsStarted = game.IsStarted;
             gameDAO.Period = game.Period;
         }
+
+        
     }
 }

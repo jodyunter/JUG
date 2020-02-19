@@ -12,7 +12,7 @@ namespace Tests.Services
         public void ShouldAutoMap()
         {
             //configuration is asserted in the constructor.
-            var next = new AutoMapperConfig();
+            var next = new MapperConfig();
             Assert.True(true);
         }
     }

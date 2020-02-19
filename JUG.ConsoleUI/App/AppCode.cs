@@ -17,7 +17,7 @@ namespace JUG.ConsoleUI.App
         
         public IDataService<TeamDAO> TeamDataService { get; set; }
         public IDataService<GameDAO> GameDataService { get; set; }
-        public AutoMapperConfig AutoMapperConfig { get; set; }
+        public MapperConfig AutoMapperConfig { get; set; }
         public JUGContext db { get; set; }
 
         public AppCode()
@@ -30,7 +30,7 @@ namespace JUG.ConsoleUI.App
 
         public void SetupAutoMapper()
         {
-            AutoMapperConfig = new AutoMapperConfig();
+            AutoMapperConfig = new MapperConfig();
         }
 
         public void SetupDataBase(bool deleteAll)

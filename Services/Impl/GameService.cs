@@ -65,6 +65,25 @@ namespace Services.Impl
             return resultModel;
         }
 
+        public IGameViewModel Update(IGameViewModel game)
+        {
+            var gameDAO = GameDataService.GetById(game.Id);
 
+            if (gameDAO.Home.Id != game.HomeId)
+            {
+                var newHomeTeam = TeamDataService.GetById(game.HomeId);
+                //check if null
+                gameDAO.Home = newHomeTeam;
+            }
+
+            if (gameDAO.Away.Id != game.AwayId)
+            {
+                var newAwayTeam = TeamDataService.GetById(game.AwayId);
+                //check if null
+                gameDAO.Away = newAwayTeam;
+            }
+
+            
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Services
     {
         IGameViewModel Create(ITeamViewModel home, ITeamViewModel away);
         IGameViewModel Play(IGameViewModel game, Random random);
+        IGameViewModel Update(IGameViewModel game);
   
     }
 }

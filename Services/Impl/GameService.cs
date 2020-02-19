@@ -48,11 +48,6 @@ namespace Services.Impl
 
         public IGameViewModel Play(IGameViewModel gameModel, Random random)
         {
-            gameModel.HomeScore = 3;
-            gameModel.AwayScore = 2;
-            gameModel.IsStarted = true;
-            gameModel.IsComplete = true;
-            gameModel.PeriodString = "F";
 
             var gameDAO = gameDS.GetById(gameModel.Id);
 
@@ -60,13 +55,13 @@ namespace Services.Impl
 
             game.Play(new Random());
 
-            gameDAO = Map(game);
+            MapGameResult(gameDAO, game);
 
             gameDS.Save(gameDAO);
+                       
+            var resultModel = Mapper.Map<GameViewModel>(game);
 
-            Mapper.Map<GameViewModel>(game);
-
-            return gameModel;
+            return resultModel;
         }
 
         public GameDAO Map(Game game)
@@ -78,6 +73,14 @@ namespace Services.Impl
             return gameDAO;
         }
 
+        public void MapGameResult(GameDAO gameDAO, Game game)
+        {
+            gameDAO.HomeScore = game.HomeScore;
+            gameDAO.AwayScore = game.AwayScore;
+            gameDAO.IsComplete = game.IsComplete;
+            gameDAO.IsStarted = game.IsStarted;
+            gameDAO.Period = game.Period;            
+        }
 
     }
 }

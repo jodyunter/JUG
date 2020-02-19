@@ -43,8 +43,8 @@ namespace Domain.Games
         {
             IsStarted = true;
             IsComplete = true;
-            HomeScore = 3;
-            AwayScore = 1;
+            HomeScore = random.Next(0, 7);
+            AwayScore = random.Next(0, 6);
         }
     }
 }

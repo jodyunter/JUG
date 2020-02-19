@@ -19,10 +19,11 @@ namespace Domain.Games
         public bool CanTie { get; set; }
         public int NormalPeriods { get; set; }
         public int MaxOverTimePeriods { get; set; }
+        public GameType GameType { get; set; }
         
         public Game() { }
 
-        public Game(int gameNo, int day, int year, int period, ITeam home, int homeScore, ITeam away, int awayScore, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods)
+        public Game(int gameNo, int day, int year, int period, ITeam home, int homeScore, ITeam away, int awayScore, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods, GameType gameType)
         {            
             GameNo = gameNo;
             Day = day;
@@ -37,6 +38,7 @@ namespace Domain.Games
             CanTie = canTie;
             NormalPeriods = normalPeriods;
             MaxOverTimePeriods = maxOverTimePeriods;
+            GameType = gameType;
         }
 
         public void Play(Random random)

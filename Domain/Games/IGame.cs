@@ -18,7 +18,15 @@ namespace Domain.Games
         public int AwayScore { get; set; }
         bool IsStarted { get; set; }
         bool IsComplete { get; set; }
+        GameType GameType { get; set; }
 
 
+    }
+
+    public enum GameType
+    {
+        Exhibition = 0,
+        Season = 1,
+        Playoff = 2
     }
 }

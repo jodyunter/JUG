@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Games;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,5 +21,6 @@ namespace Data.DAO
         public bool CanTie { get; set; }
         public int NormalPeriods { get; set; }
         public int MaxOverTimePeriods { get; set; }
+        public GameType GameType { get; set; }
     }
 }

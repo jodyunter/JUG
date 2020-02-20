@@ -45,8 +45,44 @@ namespace Domain.Games
         {
             IsStarted = true;
             IsComplete = true;
-            HomeScore = random.Next(0, 7);
-            AwayScore = random.Next(0, 6);            
+            
+            HomeScore = 0;
+            AwayScore = 0;
+
+            //calculate odds
+            int difference = Home.Skill - Away.Skill;
+
+            //we want an average of 4 goals per game per team per 3 periods.
+            int[,] odds = new int[,]
+            {
+               { 0,100 },
+                {101, 1100 },
+                {1101,  1200},
+                {1201, 1300 }
+            };
+
+            for (int i = Period; i <= NormalPeriods; i++)
+            {
+                int homeScore = random.Next(0, 1301);
+                int awayScore = random.Next(0, 1301);
+                
+                for (int j = 0; j < 3; j++)
+                {
+                    if (homeScore > odds[j,0] && homeScore < odds[j,1])
+                    {
+                        homeScore = j;
+                    }
+
+                    if (awayScore > odds[j, 0] && awayScore < odds[j, 1])
+                    {
+                        awayScore = j;
+                    }
+                }
+
+                HomeScore += homeScore;
+                AwayScore += awayScore;
+            }
+           
         }
     }
 }

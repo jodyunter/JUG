@@ -12,13 +12,8 @@ namespace Services.Config
         public TeamDAO TeamToTeamDAO(Team team);
         public Team TeamDAOToTeam(TeamDAO team);
         public TeamViewModel TeamToTeamViewModel(Team team);
-
         public Game GameDAOToGame(GameDAO gameDAO);
-
-        //this one should probably be part of the create method
-        public GameDAO GameToGameDAO(Game game, TeamDAO home, TeamDAO away);
-        public GameViewModel GameToGameViewModel(Game game);
-        public void MapGameResults(GameDAO gameDAO, Game game);
-
+        public GameDAO GameToGameDAO(Game game);
+        public GameViewModel GameToGameViewModel(Game game);      
     }
 }

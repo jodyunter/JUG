@@ -19,8 +19,7 @@ namespace Services.Config
         public MapperConfiguration Config { get; set; }
         
         public MapperConfig()
-        {
-
+        {            
             Config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Team, TeamViewModel>();
@@ -29,8 +28,11 @@ namespace Services.Config
                 cfg.CreateMap<TeamDAO, Team>();
                 cfg.CreateMap<TeamDAO, ITeam>().As<Team>();
                 cfg.CreateMap<GameDAO, Game>();
-                cfg.CreateMap<Game, GameDAO>();
-                
+
+                cfg.CreateMap<Game, GameDAO>()
+                .ForMember(d => d.Home, s => s.MapFrom(p => p.Home))
+                .ForMember(d => d.Away, s => s.MapFrom(p => p.Away));
+
                 cfg.CreateMap<Game, GameViewModel>()
                 .ForMember(d => d.Home, s => s.MapFrom(p => p.Home.Name))
                 .ForMember(d => d.HomeId, s => s.MapFrom(p => p.Home.Id))
@@ -40,11 +42,11 @@ namespace Services.Config
 
                 cfg.CreateMap<ITeam, TeamDAO>();
             });
-
+            
             Config.AssertConfigurationIsValid();
 
             Mapper = Config.CreateMapper();
-            
+
         }
 
         public Team TeamViewModelToTeam(TeamViewModel teamViewModel)
@@ -68,22 +70,11 @@ namespace Services.Config
         }
 
 
-        public GameDAO GameToGameDAO(Game game, TeamDAO home, TeamDAO away)
+        public GameDAO GameToGameDAO(Game game)
         {
-            var gameDAO = Mapper.Map<GameDAO>(game);
-            gameDAO.Home = home;
-            gameDAO.Away = away;
+            var gameDAO = Mapper.Map<GameDAO>(game);            
 
             return gameDAO;
-        }
-
-        public void MapGameResults(GameDAO gameDAO, Game game)
-        {
-            gameDAO.HomeScore = game.HomeScore;
-            gameDAO.AwayScore = game.AwayScore;
-            gameDAO.IsComplete = game.IsComplete;
-            gameDAO.IsStarted = game.IsStarted;
-            gameDAO.Period = game.Period;
         }
 
         public TeamDAO TeamToTeamDAO(Team team)

@@ -40,7 +40,12 @@ namespace Services.Impl
             var game = new Game(gameNo, day, year, 1, homeTeam, 0, awayTeam, 0, false, false, canTie, minPeriods, maxOverTimePeriods, GameType.Exhibition);
 
             //map the model
-            var gameDAO = Mapper.GameToGameDAO(game, TeamDataService.GetById(game.Home.Id), TeamDataService.GetById(game.Away.Id));
+            var gameDAO = Mapper.GameToGameDAO(game);
+
+            //when creating we need to make sure we populate the child objects with registered data objects
+            gameDAO.Home = TeamDataService.GetById(home.Id);
+            gameDAO.Away = TeamDataService.GetById(away.Id);
+
             GameDataService.Create(gameDAO);
             gameModel.Id = gameDAO.Id;
 
@@ -56,7 +61,7 @@ namespace Services.Impl
 
             game.Play(new Random());
 
-            Mapper.MapGameResults(gameDAO, game);
+            MapGameResults(gameDAO, game);
 
             GameDataService.Save(gameDAO);
 
@@ -88,6 +93,15 @@ namespace Services.Impl
 
             return null;
             
+        }
+
+        private void MapGameResults(GameDAO gameDAO, Game game)
+        {
+            gameDAO.HomeScore = game.HomeScore;
+            gameDAO.AwayScore = game.AwayScore;
+            gameDAO.IsComplete = game.IsComplete;
+            gameDAO.IsStarted = game.IsStarted;
+            gameDAO.Period = game.Period;
         }
     }
 }

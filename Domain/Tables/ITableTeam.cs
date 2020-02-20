@@ -5,7 +5,13 @@ using System.Text;
 namespace Domain.Tables
 {
     public interface ITableTeam
-    {
-        List<TeamStat> Stats { get; set; }
+    {        
+        int RegulationWins { get; set; }
+        int OverTimeWins { get; set; }        
+        int RegulationLoses { get; set; }
+        int OverTimeLoses { get; set; }
+        int Ties { get; set; }
+        int Points { get; set; }
+        int GamesPlayed { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace Domain.Games
             IsStarted = true;
             IsComplete = true;
             HomeScore = random.Next(0, 7);
-            AwayScore = random.Next(0, 6);
+            AwayScore = random.Next(0, 6);            
         }
     }
 }

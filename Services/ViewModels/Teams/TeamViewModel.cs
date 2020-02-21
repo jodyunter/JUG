@@ -10,5 +10,15 @@ namespace Services.ViewModels.Teams
         public string Name { get; set; }
         public int Skill { get; set; }
         public TeamType TeamType { get; set; }
+
+        public TeamViewModel() { }
+
+        public TeamViewModel(long id, string name, int skill, TeamType teamType)
+        {
+            Id = id;
+            Name = name;
+            Skill = skill;
+            TeamType = teamType;
+        }
     }
 }

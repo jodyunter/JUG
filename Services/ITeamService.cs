@@ -9,7 +9,8 @@ namespace Services
     public interface ITeamService:IBaseService
     {
         ITeamViewModel GetById(long id);
-        ITeamViewModel Create(string name, int skill);        
+        ITeamViewModel Create(string name, int skill);
+        IList<ITeamViewModel> GetAll();
         ITeam GetDomainObjectById(long id);        
         void Update(ITeamViewModel model);
     }

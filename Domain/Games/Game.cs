@@ -1,5 +1,6 @@
 ﻿using Domain.Teams;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Games
 {
@@ -11,78 +12,76 @@ namespace Domain.Games
         public int Year { get; set; }
         public int Period { get; set; }
         public ITeam Home { get; set; }
-        public int HomeScore { get; set; }
+        public int HomeScore { get { return HomeStats.Score; } }
         public ITeam Away { get; set; }
-        public int AwayScore { get; set; }
+        public int AwayScore { get { return AwayStats.Score; } }
         public bool IsStarted { get; set; }
         public bool IsComplete { get; set; }
         public bool CanTie { get; set; }
         public int NormalPeriods { get; set; }
         public int MaxOverTimePeriods { get; set; }
-        public GameType GameType { get; set; }
+        public GameType GameType { get; set; }        
+        [NotMapped] public IGameTeamStats HomeStats { get; set; }
+        [NotMapped] public IGameTeamStats AwayStats { get; set; }
         
         public Game() { }
 
-        public Game(int gameNo, int day, int year, int period, ITeam home, int homeScore, ITeam away, int awayScore, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods, GameType gameType)
-        {            
+        public Game(long? id, int gameNo, int day, int year, int period, ITeam home, IGameTeamStats homeStats, ITeam away, IGameTeamStats awayStats, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods, GameType gameType)
+        {
+            if (id != null) Id = id.Value;
+
             GameNo = gameNo;
             Day = day;
             Year = year;
             Period = period;
-            Home = home;
-            HomeScore = homeScore;
-            Away = away;
-            AwayScore = awayScore;
+            Home = home;            
+            Away = away;            
             IsStarted = isStarted;
             IsComplete = isComplete;
             CanTie = canTie;
             NormalPeriods = normalPeriods;
             MaxOverTimePeriods = maxOverTimePeriods;
             GameType = gameType;
+            HomeStats = homeStats;
+            AwayStats = awayStats;
         }
 
         public void Play(Random random)
         {
             IsStarted = true;
             IsComplete = true;
-            
-            HomeScore = 0;
-            AwayScore = 0;
 
-            //calculate odds
-            int difference = Home.Skill - Away.Skill;
+            HomeStats.Score = 0;
+            AwayStats.Score = 0;
 
-            //we want an average of 4 goals per game per team per 3 periods.
-            int[,] odds = new int[,]
+            for (int i = 0; i < NormalPeriods; i++)
             {
-               { 0,100 },
-                {101, 1100 },
-                {1101,  1200},
-                {1201, 1300 }
-            };
-
-            for (int i = Period; i <= NormalPeriods; i++)
-            {
-                int homeScore = random.Next(0, 1301);
-                int awayScore = random.Next(0, 1301);
-                
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 60; j++)
                 {
-                    if (homeScore > odds[j,0] && homeScore < odds[j,1])
-                    {
-                        homeScore = j;
-                    }
-
-                    if (awayScore > odds[j, 0] && awayScore < odds[j, 1])
-                    {
-                        awayScore = j;
-                    }
+                    ProcessTickForTeam(Home, Away, HomeStats, AwayStats, random);
+                    ProcessTickForTeam(Away, Home, AwayStats, HomeStats, random);                                       
                 }
+            }           
+        }
 
-                HomeScore += homeScore;
-                AwayScore += awayScore;
+        public void ProcessTickForTeam(ITeam attacker, ITeam defender, IGameTeamStats attackerStats, IGameTeamStats defenderStats, Random random)
+        {
+            if (ShotOnNet(attacker, defender, random))
+            {
+                attackerStats.Shots++;
+                if (GoalScored(attacker, defender, random))
+                {
+                    attackerStats.Score++;
+                }
             }
-           
+        }
+        public bool GoalScored(ITeam attacker, ITeam defender, Random random)
+        {
+            return random.Next(0, 10) == 0;
+        }
+        public bool ShotOnNet(ITeam attacker, ITeam defender, Random random)
+        {
+            return random.Next(0, 6) == 0;
         }
     }
 }

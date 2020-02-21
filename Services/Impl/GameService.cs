@@ -37,7 +37,7 @@ namespace Services.Impl
             var maxOverTimePeriods = 1; //need a way to get this
             var minPeriods = 3; //need a way to get this
 
-            var game = new Game(gameNo, day, year, 1, homeTeam, 0, awayTeam, 0, false, false, canTie, minPeriods, maxOverTimePeriods, GameType.Exhibition);
+            var game = new Game(null, gameNo, day, year, 1, homeTeam, new GameTeamStats(0,0), awayTeam, new GameTeamStats(0,0), false, false, canTie, minPeriods, maxOverTimePeriods, GameType.Exhibition);
 
             //map the model
             var gameDAO = Mapper.GameToGameDAO(game);
@@ -102,6 +102,8 @@ namespace Services.Impl
             gameDAO.IsComplete = game.IsComplete;
             gameDAO.IsStarted = game.IsStarted;
             gameDAO.Period = game.Period;
+            gameDAO.HomeShots = game.HomeStats.Shots;
+            gameDAO.AwayShots = game.AwayStats.Shots;
         }
     }
 }

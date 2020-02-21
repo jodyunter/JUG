@@ -12,10 +12,10 @@ namespace Domain.Games
         int Day { get; set; }
         int Year { get; set; }
         int Period { get; set; }                
-        public ITeam Home { get; set; }
-        public int HomeScore { get; set; }
+        public ITeam Home { get; set; }        
+        public IGameTeamStats HomeStats { get; set; }
         public ITeam Away { get; set; }
-        public int AwayScore { get; set; }
+        public IGameTeamStats AwayStats { get; set; }
         bool IsStarted { get; set; }
         bool IsComplete { get; set; }
         GameType GameType { get; set; }

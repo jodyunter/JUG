@@ -29,7 +29,7 @@ namespace Services.ViewModels.Games
             Year = year;
             HomeId = homeId;
             Home = home;
-            HomeScore = homeScore;
+            HomeScore = homeScore;            
             AwayId = awayId;
             Away = away;
             AwayScore = awayScore;

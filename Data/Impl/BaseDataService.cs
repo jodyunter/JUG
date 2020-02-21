@@ -31,5 +31,10 @@ namespace Data.Impl
             db.SaveChanges();
 
         }
+
+        public IList<TEntity> GetAll()
+        {
+            return db.Set<TEntity>().ToList();
+        }
     }
 }

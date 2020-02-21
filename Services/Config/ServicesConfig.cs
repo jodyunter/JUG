@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Data;
+using Data.DAO;
+using Data.Impl;
+using Microsoft.Extensions.DependencyInjection;
+using Services.Impl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +13,13 @@ namespace Services.Config
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
+
+            services.AddDbContext<JUGContext>(ServiceLifetime.Singleton);
+            services.AddSingleton<IMapperConfig, MapperConfig>();
+
+            services.AddSingleton<IDataService<TeamDAO>, BaseDataService<TeamDAO>>();
+            services.AddSingleton<ITeamService, TeamService>();
+
             return services;
         }
     }

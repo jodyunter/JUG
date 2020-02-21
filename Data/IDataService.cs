@@ -9,5 +9,7 @@ namespace Data
         TEntity GetById(long Id);
         void Save(TEntity entity);
         void Create(TEntity entity);
+
+        IList<TEntity> GetAll();
     }
 }

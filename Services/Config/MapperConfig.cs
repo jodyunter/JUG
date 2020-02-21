@@ -7,7 +7,7 @@ using Services.ViewModels.Games;
 using Services.ViewModels.Teams;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Services.Config
 {
@@ -45,6 +45,10 @@ namespace Services.Config
         {
             return Mapper.Map<TeamViewModel>(team);
         }
+        public IList<TeamViewModel> TeamToTeamViewModel(IList<Team> teams)
+        {
+            return teams.Select(x => TeamToTeamViewModel(x)).ToList();
+        }
 
         public TeamDAO TeamToTeamDAO(Team team)
         {
@@ -56,6 +60,10 @@ namespace Services.Config
             return Mapper.Map<Team>(teamDAO);
         }
 
+        public IList<Team> TeamDAOToTeam(IList<TeamDAO> teamDAO)
+        {
+            return teamDAO.Select(x => TeamDAOToTeam(x)).ToList();
+        }
         public Game GameDAOToGame(GameDAO gameDAO)
         {
             var game = new Game(

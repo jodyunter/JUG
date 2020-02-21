@@ -10,20 +10,9 @@ namespace JUG.ConsoleUI
         {
             var app = new AppCode();
 
-            var gameService = app.GameService;
-            var teamService = app.TeamService;
-
-            var homeTeam = teamService.Create("Team 1", 5);
-            var awayTeam = teamService.Create("Team 2", 5);
-
-            for (int i = 0; i < 100; i++)
+            for (int i = 1; i <= 20; i++)
             {
-                var game = gameService.Create(homeTeam, awayTeam);
-
-                game = gameService.Play(game, new Random());
-
-                var view = new SimpleGameView() { Model = game };
-                Console.WriteLine(view.GetDisplayString());
+                app.TeamService.Create("Team " + i, 5);
             }
 
             Console.WriteLine("Hello World!");

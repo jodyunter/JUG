@@ -8,7 +8,7 @@ using Services.ViewModels;
 using Services.ViewModels.Teams;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Services.Impl
 {
@@ -60,16 +60,15 @@ namespace Services.Impl
 
         public IList<ITeamViewModel> GetAll()
         {
-            return new List<ITeamViewModel>()
-            {
-                new TeamViewModel(1, "Team 1", 5, ViewModels.Teams.TeamType.BaseTeam),
-                new TeamViewModel(1, "Team 2", 5, ViewModels.Teams.TeamType.BaseTeam),
-                new TeamViewModel(1, "Team 3", 5, ViewModels.Teams.TeamType.BaseTeam),
-                new TeamViewModel(1, "Team 4", 5, ViewModels.Teams.TeamType.BaseTeam),
-                new TeamViewModel(1, "Team 5", 5, ViewModels.Teams.TeamType.BaseTeam),
-                new TeamViewModel(1, "Team 6", 5, ViewModels.Teams.TeamType.BaseTeam),
-                new TeamViewModel(1, "Team 7", 5, ViewModels.Teams.TeamType.BaseTeam),
-            };
+
+            var teamDAOs = teamDS.GetAll();
+
+            var teams = Mapper.TeamDAOToTeam(teamDAOs);
+
+            var models = Mapper.TeamToTeamViewModel(teams);
+
+            return models.ToList<ITeamViewModel>();
+
         }
     }
 }

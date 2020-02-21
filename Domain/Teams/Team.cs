@@ -10,5 +10,15 @@ namespace Domain.Teams
         public long Id { get; set; }
         public string Name { get; set; }
         public int Skill { get; set; }
+
+        public Team() { }
+
+        public Team(TeamType teamType, long id, string name, int skill)
+        {
+            TeamType = teamType;
+            Id = id;
+            Name = name;
+            Skill = skill;
+        }
     }
 }

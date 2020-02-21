@@ -9,5 +9,6 @@ namespace Domain.Tables
     {
         ITableTeam Team { get; set; }
         string Group { get; set; }
+        int Rank { get; set; }
     }
 }

@@ -13,5 +13,9 @@ namespace Domain.Tables
         int Ties { get; set; }
         int Points { get; set; }
         int GamesPlayed { get; set; }
+        int GoalsFor { get; set; }
+        int GoalsAgainst { get; set; }
+        int ShotsFor { get; set; }
+        int ShotsAgainst { get; set; }
     }
 }

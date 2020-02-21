@@ -11,7 +11,7 @@ namespace Domain.Tables
         IList<IRanking> Rankings { get; set; }
         void SortStandings(string byGroup);
         void SortStandings();
-        int CompareTeams(ITeam a, ITeam b);
+        int CompareTeams(ITableTeam a, ITableTeam b);
         
     }
 }

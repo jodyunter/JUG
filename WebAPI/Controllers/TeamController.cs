@@ -43,5 +43,13 @@ namespace WebAPI.Controllers
 
             return Ok(teamService.GetById(id.Value));
         }
+        
+        [HttpPost]
+        public async Task<ActionResult<ITeamViewModel>> PostNewTeam(ITeamViewModel teamModel)
+        {
+            var newTeam = teamService.Create(teamModel.Name, teamModel.Skill);
+
+            return CreatedAtAction(nameof(newTeam), new { id = newTeam.Id }, newTeam);
+        }
     }
 }

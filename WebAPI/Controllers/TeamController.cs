@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ITeamViewModel>> PostTeam(TeamViewModel teamModel)
         {
-            ITeamViewModel newTeam;
+            ITeamViewModel newTeam = teamModel;
 
             if (teamModel.Id == -1)
             {

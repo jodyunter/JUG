@@ -35,8 +35,10 @@ namespace Services.Impl
         public void Update(ITeamViewModel model)
         {
             var team = Mapper.TeamViewModelToTeam((TeamViewModel)model);
+            
+            var teamDAO = teamDS.GetById(team.Id);
 
-            var teamDAO = Mapper.TeamToTeamDAO(team);
+            var teamUpdateDAO = Mapper.TeamToTeamDAO(team);            
 
             teamDS.Save(teamDAO);
         }

@@ -39,6 +39,11 @@ namespace WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(policy =>
+                policy.WithOrigins("http://localhost:50937", "https://localhost:44307")
+                .AllowAnyMethod()
+                .WithHeaders(HeaderNames.ContentType));
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -49,11 +54,6 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
-
-            app.UseCors(policy =>
-            policy.WithOrigins("http://localhost:50937", "https://localhost:44307")
-            .AllowAnyMethod()
-            .WithHeaders(HeaderNames.ContentType));
         }
     }
 }

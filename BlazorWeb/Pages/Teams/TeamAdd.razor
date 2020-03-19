@@ -1,0 +1,25 @@
+﻿@inject HttpClient Http
+@using Services.ViewModels.Teams
+
+
+<EditForm Model="@teamViewModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="name" @bind-Value="teamViewModel.Name" />
+    <InputNumber id="skill" @bind-Value="teamViewModel.Skill"/>
+    
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private TeamViewModel teamViewModel = new TeamViewModel();
+
+    private void HandleValidSubmit()
+    {
+        teamViewModel.TeamType = TeamType.BaseTeam;
+
+        HttpClientJsonExtensions.PostJsonAsync(Http, "https://localhost:44304/api/team", teamViewModel);                
+        Console.WriteLine("OnValidSubmit");
+    }
+}

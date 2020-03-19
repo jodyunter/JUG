@@ -2,9 +2,10 @@
 @inject HttpClient Http
 @using Services.ViewModels.Teams
 
-<h1>Weather forecast</h1>
+<h1>Current Teams</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
+<TeamAdd />
 
 @if (teams == null)
 {

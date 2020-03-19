@@ -6,7 +6,7 @@ namespace Services.ViewModels.Teams
 {
     public class TeamViewModel : ITeamViewModel
     {
-        public long Id { get; set; }
+        public long Id { get; set; } = -1;
         public string Name { get; set; }
         public int Skill { get; set; }
         public TeamType TeamType { get; set; }

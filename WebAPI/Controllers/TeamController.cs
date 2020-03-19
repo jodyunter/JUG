@@ -45,9 +45,20 @@ namespace WebAPI.Controllers
         }
         
         [HttpPost]
-        public async Task<ActionResult<ITeamViewModel>> PostNewTeam(TeamViewModel teamModel)
+        public async Task<ActionResult<ITeamViewModel>> PostTeam(TeamViewModel teamModel)
         {
-            var newTeam = teamService.Create(teamModel.Name, teamModel.Skill);
+            ITeamViewModel newTeam;
+
+            if (teamModel.Id == -1)
+            {
+                newTeam = teamService.Create(teamModel.Name, teamModel.Skill);
+            }
+            else
+            {
+                teamService.Update(teamModel);
+            }
+            
+
 
             return CreatedAtAction(nameof(newTeam), new { id = newTeam.Id }, newTeam);
         }

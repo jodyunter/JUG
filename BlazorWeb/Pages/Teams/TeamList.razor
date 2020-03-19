@@ -1,0 +1,45 @@
+﻿@page "/teams"
+@inject HttpClient Http
+@using Services.ViewModels.Teams
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (teams == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Skill</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in teams)
+            {
+                <tr>
+                    <td>@team.Id</td>
+                    <td>@team.Name</td>
+                    <td>@team.Skill</td>                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private TeamViewModel[] teams;
+
+    protected override async Task OnInitializedAsync()
+    {        
+        //forecasts = await Http.GetJsonAsync<WeatherForecast[]>("sample-data/weather.json");        
+        teams = await Http.GetJsonAsync<TeamViewModel[]>("https://localhost:44304/api/team");
+    }
+
+}

@@ -9,32 +9,42 @@ namespace Data.Impl
     {
         private JUGContext db;        
 
-        public BaseDataService(JUGContext context)
-        {            
-            db = context;
+        public BaseDataService()
+        {                     
         }
 
         public void Create(TEntity o)
-        {                        
-            db.Add(o);
-            db.SaveChanges();
+        {
+            using (db = new JUGContext())
+            {
+                db.Add(o);
+                db.SaveChanges();
+            }
         }
 
         public TEntity GetById(long Id)
         {
-            return db.Set<TEntity>().Where(t => t.Id == Id).FirstOrDefault();
+            using (db = new JUGContext())
+            {
+                return db.Set<TEntity>().Where(t => t.Id == Id).FirstOrDefault();
+            }
         }
 
         public void Save(TEntity o)
-        {            
-            db.Update(o);
-            db.SaveChanges();
-
+        {
+            using (db = new JUGContext())
+            {
+                db.Update(o);
+                db.SaveChanges();
+            }
         }
 
         public IList<TEntity> GetAll()
         {
-            return db.Set<TEntity>().ToList();
+            using (db = new JUGContext())
+            {
+                return db.Set<TEntity>().ToList();
+            }
         }
     }
 }

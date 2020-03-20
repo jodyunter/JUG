@@ -25,7 +25,7 @@ namespace Tests.Data
 
             var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = type };
 
-            var teamDataService = new BaseDataService<TeamDAO>(db);
+            var teamDataService = new BaseDataService<TeamDAO>();
 
             teamDataService.Create(teamDAO);
 
@@ -48,7 +48,7 @@ namespace Tests.Data
 
             var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = type };
 
-            var teamDataService = new BaseDataService<TeamDAO>(db);
+            var teamDataService = new BaseDataService<TeamDAO>();
 
             teamDataService.Create(teamDAO);
 

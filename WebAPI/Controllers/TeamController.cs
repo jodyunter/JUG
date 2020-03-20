@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
         {
             ITeamViewModel newTeam = teamModel;
 
-            if (teamModel.Id == -1)
+            if (teamModel.Id == 0)
             {
                 newTeam = teamService.Create(teamModel.Name, teamModel.Skill);
             }

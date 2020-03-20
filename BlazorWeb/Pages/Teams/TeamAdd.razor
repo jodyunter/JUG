@@ -2,25 +2,33 @@
 @using Services.ViewModels.Teams
 
 
-<EditForm Model="@teamViewModel" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="@TeamViewModel" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <InputNumber id="Id" @bind-Value="teamViewModel.Id" />
-    <InputText id="name" @bind-Value="teamViewModel.Name" />
-    <InputNumber id="skill" @bind-Value="teamViewModel.Skill"/>
+    <InputNumber id="Id" @bind-Value="TeamViewModel.Id" />
+    <InputText id="name" @bind-Value="TeamViewModel.Name" />
+    <InputNumber id="skill" @bind-Value="TeamViewModel.Skill"/>
     
     <button type="submit">Submit</button>
 </EditForm>
 
 @code {
-    private TeamViewModel teamViewModel = new TeamViewModel();
+    [Parameter]
+    public TeamViewModel TeamViewModel { get; set; }
+
+    [Parameter]
+    public Action<TeamViewModel> RefreshParent { get; set; }
 
     private void HandleValidSubmit()
     {
-        teamViewModel.TeamType = TeamType.BaseTeam;
+        TeamViewModel.TeamType = TeamType.BaseTeam;
 
-        HttpClientJsonExtensions.PostJsonAsync(Http, "https://localhost:44304/api/team", teamViewModel);                
+        HttpClientJsonExtensions.PostJsonAsync(Http, "https://localhost:44304/api/team", TeamViewModel);
         Console.WriteLine("OnValidSubmit");
+
+        RefreshParent(TeamViewModel);
+
+        Console.WriteLine("CHILD HERE HERE");
     }
 }

@@ -44,8 +44,8 @@ namespace JUG.ConsoleUI.App
 
         public void SetupDataServices()
         {
-            TeamDataService = new BaseDataService<TeamDAO>(db);
-            GameDataService = new BaseDataService<GameDAO>(db);
+            TeamDataService = new BaseDataService<TeamDAO>();
+            GameDataService = new BaseDataService<GameDAO>();
         }
 
         public void SetupServices()

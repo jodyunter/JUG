@@ -5,7 +5,7 @@
 <h1>Current Teams</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-<TeamAdd />
+<TeamAdd TeamViewModel="@EditTeam" RefreshParent="@ParentRefresh" />
 
 @if (teams == null)
 {
@@ -35,12 +35,28 @@ else
 }
 
 @code {
+    private TeamViewModel EditTeam = new TeamViewModel();
+
     private TeamViewModel[] teams;
 
     protected override async Task OnInitializedAsync()
     {        
-        //forecasts = await Http.GetJsonAsync<WeatherForecast[]>("sample-data/weather.json");        
+        await SetData();
+    }
+
+    public async Task<bool> SetData()
+    {
         teams = await Http.GetJsonAsync<TeamViewModel[]>("https://localhost:44304/api/team");
+
+        return true;
+    }
+    public void ParentRefresh(TeamViewModel model)
+    {
+        SetData();
+        EditTeam = new TeamViewModel();
+        StateHasChanged();
+        
+        
     }
 
 }

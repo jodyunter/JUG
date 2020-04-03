@@ -4,8 +4,16 @@
 
 <h1>Current Teams</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
-<TeamAdd TeamViewModel="@EditTeam" RefreshParent="@ParentRefresh" />
+
+<EditForm Model="@EditTeam" OnValidSubmit="CreateOrUpdateTeam">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <button @onclick="@(e => CreateNew())">Create New</button>
+    <InputText id="name" @bind-Value="EditTeam.Name" />
+    <InputNumber id="skill" @bind-Value="EditTeam.Skill" />
+
+    <button type="submit">Submit</button>
+</EditForm>
 
 @if (teams == null)
 {
@@ -18,7 +26,8 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Skill</th>                
+                <th>Skill</th>
+                <th colspan="2">Options</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +36,9 @@ else
                 <tr>
                     <td>@team.Id</td>
                     <td>@team.Name</td>
-                    <td>@team.Skill</td>                    
+                    <td>@team.Skill</td>
+                    <td><button name="Edit" @onclick="@(e => EditClick(@team.Id))">Edit</button></td>
+                    <td><button name="Delete">Delete</button></td>
                 </tr>
             }
         </tbody>
@@ -39,24 +50,55 @@ else
 
     private TeamViewModel[] teams;
 
+    private static string server = "https://localhost:44304";
+    private string teamList = $"{server}/api/team";
+    private string teamFind = $"{server}/api/team/find";
+    private string teamUpdate = $"{server}/api/team";
+
     protected override async Task OnInitializedAsync()
-    {        
+    {
         await SetData();
     }
 
     public async Task<bool> SetData()
     {
-        teams = await Http.GetJsonAsync<TeamViewModel[]>("https://localhost:44304/api/team");
+        teams = await Http.GetJsonAsync<TeamViewModel[]>($"{teamList}");
 
         return true;
     }
-    public void ParentRefresh(TeamViewModel model)
+
+    private async Task<bool> EditClick(long teamId)
     {
-        SetData();
-        EditTeam = new TeamViewModel();
-        StateHasChanged();
-        
-        
+        EditTeam = await Http.GetJsonAsync<TeamViewModel>($"{teamFind}/{teamId}");
+
+        return true;
     }
+
+    private async Task<bool> CreateNew()
+    {
+        EditTeam = new TeamViewModel();
+
+        await SetData();
+
+        StateHasChanged();
+
+        return true;
+    }
+
+    private async Task<bool> CreateOrUpdateTeam()
+    {
+        EditTeam.TeamType = TeamType.BaseTeam;
+
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{teamUpdate}", EditTeam);
+
+        await SetData();
+
+        StateHasChanged();
+
+        return true;
+
+
+    }
+
 
 }

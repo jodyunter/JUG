@@ -38,7 +38,7 @@ else
                     <td>@team.Name</td>
                     <td>@team.Skill</td>
                     <td><button name="Edit" @onclick="@(e => EditClick(@team.Id))">Edit</button></td>
-                    <td><button name="Delete">Delete</button></td>
+                    <td><button name="Delete" @onclick="@(e => DeleteClick(@team.Id))">Delete</button></td>
                 </tr>
             }
         </tbody>
@@ -46,6 +46,7 @@ else
 }
 
 @code {
+
     private TeamViewModel EditTeam = new TeamViewModel();
 
     private TeamViewModel[] teams;
@@ -54,6 +55,7 @@ else
     private string teamList = $"{server}/api/team";
     private string teamFind = $"{server}/api/team/find";
     private string teamUpdate = $"{server}/api/team";
+    private string teamDelete = $"{server}/api/team/delete";
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,9 +66,21 @@ else
     {
         teams = await Http.GetJsonAsync<TeamViewModel[]>($"{teamList}");
 
+        StateHasChanged();
+
         return true;
     }
 
+    private async Task<bool> DeleteClick(long teamId)
+    {
+        var deleteTeam = new TeamViewModel() { Id = teamId };
+
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{teamDelete}", deleteTeam);
+
+        await SetData();
+
+        return true;
+    }
     private async Task<bool> EditClick(long teamId)
     {
         EditTeam = await Http.GetJsonAsync<TeamViewModel>($"{teamFind}/{teamId}");
@@ -80,8 +94,6 @@ else
 
         await SetData();
 
-        StateHasChanged();
-
         return true;
     }
 
@@ -92,8 +104,6 @@ else
         await HttpClientJsonExtensions.PostJsonAsync(Http, $"{teamUpdate}", EditTeam);
 
         await SetData();
-
-        StateHasChanged();
 
         return true;
 

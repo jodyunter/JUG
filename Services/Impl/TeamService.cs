@@ -60,7 +60,6 @@ namespace Services.Impl
 
         public IList<ITeamViewModel> GetAll()
         {
-
             var teamDAOs = teamDS.GetAll();
 
             var teams = Mapper.TeamDAOToTeam(teamDAOs);
@@ -69,6 +68,17 @@ namespace Services.Impl
 
             return models.ToList<ITeamViewModel>();
 
+        }
+
+        public void Delete(long? id)
+        {
+            if (id != null)
+            {
+                var teamId = (long)id;
+
+                var daoObject = teamDS.GetById(teamId);
+                teamDS.Delete(daoObject);                
+            }
         }
     }
 }

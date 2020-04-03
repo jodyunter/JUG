@@ -46,5 +46,14 @@ namespace Data.Impl
                 return db.Set<TEntity>().ToList();
             }
         }
+
+        public void Delete(TEntity o)
+        {
+            using (db = new JUGContext())
+            {
+                db.Set<TEntity>().Remove(o);
+                db.SaveChanges();
+            }
+        }
     }
 }

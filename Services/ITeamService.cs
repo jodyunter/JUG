@@ -13,6 +13,7 @@ namespace Services
         IList<ITeamViewModel> GetAll();
         ITeam GetDomainObjectById(long id);        
         void Update(ITeamViewModel model);
+        void Delete(long? id);
     }
     
 }

@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         
         [HttpGet]
         [HttpGet("list")]
-        public async Task<IActionResult> List()
+        public IActionResult List()
         {
             IList<ITeamViewModel> teams = teamService.GetAll();
 
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
 
         [HttpGet("{id}")]
         [HttpGet("find/{id}")]
-        public async Task<IActionResult> Find(long? id)
+        public IActionResult Find(long? id)
         {
             if (id == null)
             {
@@ -43,10 +43,9 @@ namespace WebAPI.Controllers
 
             return Ok(teamService.GetById(id.Value));
         }
-        
-        [ActionName("PostTeam")]
+                
         [HttpPost]
-        public async Task<ActionResult<ITeamViewModel>> PostTeam(TeamViewModel teamModel)
+        public ActionResult<ITeamViewModel> PostTeam(TeamViewModel teamModel)
         {
             ITeamViewModel newTeam = teamModel;
 
@@ -59,8 +58,15 @@ namespace WebAPI.Controllers
                 teamService.Update(teamModel);
             }
 
-
             return Ok(newTeam);            
+        }
+
+        [HttpPost("delete/")]
+        public IActionResult DeleteTeam(TeamViewModel teamModel)
+        {
+            teamService.Delete(teamModel.Id);
+
+            return Ok();
         }
     }
 }

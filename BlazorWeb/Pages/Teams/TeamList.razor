@@ -1,9 +1,9 @@
-﻿@page "/teams"
+﻿@page "/listedit/{PageType}"
+
 @inject HttpClient Http
 @using Services.ViewModels.Teams
 
 <h1>Current Teams</h1>
-
 
 <EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
     <DataAnnotationsValidator />
@@ -46,16 +46,17 @@ else
 }
 
 @code {
-
+    [Parameter]
+    public string PageType { get; set; }
     private TeamViewModel EditObject = new TeamViewModel();
 
     private TeamViewModel[] teams;
 
     private static string server = "https://localhost:44304";
-    private string list = $"{server}/api/team";
-    private string find = $"{server}/api/team/find";
-    private string update = $"{server}/api/team";
-    private string delete = $"{server}/api/team/delete";
+    private string list { get { return $"{server}/api/{PageType}"; } }
+    private string find { get { return $"{server}/api/{PageType}/find"; } }
+    private string update { get { return $"{server}/api/{PageType}"; } }
+    private string delete { get { return $"{server}/api/{PageType}/delete"; } }
 
     protected override async Task OnInitializedAsync()
     {

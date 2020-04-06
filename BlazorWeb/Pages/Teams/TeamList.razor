@@ -5,12 +5,12 @@
 <h1>Current Teams</h1>
 
 
-<EditForm Model="@EditTeam" OnValidSubmit="CreateOrUpdateTeam">
+<EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <button class="btn btn-secondary" @onclick="@(e => CreateNew())">Create New</button>
-    <InputText id="name" @bind-Value="EditTeam.Name" />
-    <InputNumber id="skill" @bind-Value="EditTeam.Skill" />
+    <InputText id="name" @bind-Value="EditObject.Name" />
+    <InputNumber id="skill" @bind-Value="EditObject.Skill" />
 
     <button class="btn btn-primary" type="submit">Submit</button>
 </EditForm>
@@ -47,15 +47,15 @@ else
 
 @code {
 
-    private TeamViewModel EditTeam = new TeamViewModel();
+    private TeamViewModel EditObject = new TeamViewModel();
 
     private TeamViewModel[] teams;
 
     private static string server = "https://localhost:44304";
-    private string teamList = $"{server}/api/team";
-    private string teamFind = $"{server}/api/team/find";
-    private string teamUpdate = $"{server}/api/team";
-    private string teamDelete = $"{server}/api/team/delete";
+    private string list = $"{server}/api/team";
+    private string find = $"{server}/api/team/find";
+    private string update = $"{server}/api/team";
+    private string delete = $"{server}/api/team/delete";
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,44 +64,44 @@ else
 
     public async Task<bool> SetData()
     {
-        teams = await Http.GetJsonAsync<TeamViewModel[]>($"{teamList}");
+        teams = await Http.GetJsonAsync<TeamViewModel[]>($"{list}");
 
         StateHasChanged();
 
         return true;
     }
 
-    private async Task<bool> DeleteClick(long teamId)
+    private async Task<bool> DeleteClick(long id)
     {
-        var deleteTeam = new TeamViewModel() { Id = teamId };
+        var deleteObject = new TeamViewModel() { Id = id };
 
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{teamDelete}", deleteTeam);
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{delete}", deleteObject);
 
         await SetData();
 
         return true;
     }
-    private async Task<bool> EditClick(long teamId)
+    private async Task<bool> EditClick(long id)
     {
-        EditTeam = await Http.GetJsonAsync<TeamViewModel>($"{teamFind}/{teamId}");
+        EditObject = await Http.GetJsonAsync<TeamViewModel>($"{find}/{id}");
 
         return true;
     }
 
     private async Task<bool> CreateNew()
     {
-        EditTeam = new TeamViewModel();
+        EditObject = new TeamViewModel();
 
         await SetData();
 
         return true;
     }
 
-    private async Task<bool> CreateOrUpdateTeam()
+    private async Task<bool> CreateOrUpdateObject()
     {
-        EditTeam.TeamType = TeamType.BaseTeam;
+        EditObject.TeamType = TeamType.BaseTeam;
 
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{teamUpdate}", EditTeam);
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", EditObject);
 
         await SetData();
 

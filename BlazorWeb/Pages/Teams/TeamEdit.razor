@@ -1,0 +1,17 @@
+﻿<h3>TeamEdit</h3>
+@using Services.ViewModels.Teams
+
+<EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <button class="btn btn-secondary" @onclick="@(e => CreateNew())">Create New</button>
+    <InputText id="name" @bind-Value="EditObject.Name" />
+    <InputNumber id="skill" @bind-Value="EditObject.Skill" />
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public TeamViewModel EditObject { get; set; } = new TeamViewModel();
+}

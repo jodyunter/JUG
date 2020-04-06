@@ -8,11 +8,11 @@
 <EditForm Model="@EditTeam" OnValidSubmit="CreateOrUpdateTeam">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <button @onclick="@(e => CreateNew())">Create New</button>
+    <button class="btn btn-secondary" @onclick="@(e => CreateNew())">Create New</button>
     <InputText id="name" @bind-Value="EditTeam.Name" />
     <InputNumber id="skill" @bind-Value="EditTeam.Skill" />
 
-    <button type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
 </EditForm>
 
 @if (teams == null)
@@ -21,7 +21,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table table-sm table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -37,8 +37,8 @@ else
                     <td>@team.Id</td>
                     <td>@team.Name</td>
                     <td>@team.Skill</td>
-                    <td><button name="Edit" @onclick="@(e => EditClick(@team.Id))">Edit</button></td>
-                    <td><button name="Delete" @onclick="@(e => DeleteClick(@team.Id))">Delete</button></td>
+                    <td><button class="btn btn-primary" name="Edit" @onclick="@(e => EditClick(@team.Id))">Edit</button></td>
+                    <td><button class="btn btn-danger" name="Delete" @onclick="@(e => DeleteClick(@team.Id))">Delete</button></td>
                 </tr>
             }
         </tbody>

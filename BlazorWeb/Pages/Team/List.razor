@@ -1,21 +1,14 @@
 ﻿@page "/listedit/{PageType}"
 
 @inject HttpClient Http
+@inject AppState AppState
+@implements IDisposable
+
 @using Services.ViewModels.Teams
 
 <h1>Current Teams</h1>
 
 @ChildContent
-
-<EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <button class="btn btn-secondary" @onclick="@(e => CreateNew())">Create New</button>
-    <InputText id="name" @bind-Value="EditObject.Name" />
-    <InputNumber id="skill" @bind-Value="EditObject.Skill" />
-
-    <button class="btn btn-primary" type="submit">Submit</button>
-</EditForm>
 
 @if (teams == null)
 {
@@ -101,6 +94,8 @@ else
     {
         EditObject = await Http.GetJsonAsync<TeamViewModel>($"{find}/{id}");
 
+        AppState.SetModelForEdit(EditObject);
+
         return true;
     }
 
@@ -115,15 +110,22 @@ else
 
     private async Task<bool> CreateOrUpdateObject()
     {
-        EditObject.TeamType = TeamType.BaseTeam;
 
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", EditObject);
-
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", AppState.EditModel);
         await SetData();
 
         return true;
 
+    }
 
+    protected override void OnInitialized()
+    {
+        AppState.ModelReadyToSave += CreateOrUpdateObject;
+    }
+
+    public void Dispose()
+    {
+        AppState.ModelReadyToSave -= CreateOrUpdateObject;
     }
 
 

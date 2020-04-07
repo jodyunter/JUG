@@ -1,6 +1,9 @@
-﻿<h3>TeamEdit</h3>
-@using Services;
+﻿
+@inject AppState AppState
+@implements IDisposable
 @using Services.ViewModels.Teams
+
+<h3>TeamEdit</h3>
 
 <EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
     <DataAnnotationsValidator />
@@ -18,28 +21,36 @@
 
     private async Task<bool> CreateNew()
     {
-        EditObject = new TeamViewModel();
-
-        //await SetData();
+        EditObject = new TeamViewModel();        
 
         return true;
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        //EditObject = new TeamViewModel() { Id = 0, Name = "Edit me", Skill = 12 };
-    }
 
     private async Task<bool> CreateOrUpdateObject()
     {
         EditObject.TeamType = TeamType.BaseTeam;
 
-        //await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", EditObject);
-
-        //await SetData();
+        AppState.SetModelForUpdate(EditObject);
 
         return true;
 
 
+    }
+
+    public void ModelSelected()
+    {
+        EditObject = (TeamViewModel)AppState.EditModel;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        AppState.ModelSelected += ModelSelected;
+    }
+
+    public void Dispose()
+    {
+        AppState.ModelSelected -= ModelSelected;
     }
 }

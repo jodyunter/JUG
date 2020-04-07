@@ -12,6 +12,7 @@ namespace BlazorWeb
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.Services.AddSingleton<AppState>();
             builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();

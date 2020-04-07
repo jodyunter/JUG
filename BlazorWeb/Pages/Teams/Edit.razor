@@ -14,4 +14,26 @@
 @code {
     [Parameter]
     public TeamViewModel EditObject { get; set; } = new TeamViewModel();
+
+    private async Task<bool> CreateNew()
+    {
+        EditObject = new TeamViewModel();
+
+        //await SetData();
+
+        return true;
+    }
+
+    private async Task<bool> CreateOrUpdateObject()
+    {
+        EditObject.TeamType = TeamType.BaseTeam;
+
+        //await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", EditObject);
+
+        //await SetData();
+
+        return true;
+
+
+    }
 }

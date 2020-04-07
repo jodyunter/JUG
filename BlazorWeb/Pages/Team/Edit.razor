@@ -1,4 +1,5 @@
 ﻿<h3>TeamEdit</h3>
+@using Services;
 @using Services.ViewModels.Teams
 
 <EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
@@ -22,6 +23,11 @@
         //await SetData();
 
         return true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //EditObject = new TeamViewModel() { Id = 0, Name = "Edit me", Skill = 12 };
     }
 
     private async Task<bool> CreateOrUpdateObject()

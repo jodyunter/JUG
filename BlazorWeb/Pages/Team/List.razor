@@ -1,14 +1,11 @@
-﻿@page "/listedit/{PageType}"
-
-@inject HttpClient Http
+﻿
 @inject AppState AppState
 @implements IDisposable
-
 @using Services.ViewModels.Teams
+
 
 <h1>Current Teams</h1>
 
-@ChildContent
 
 @if (teams == null)
 {
@@ -27,7 +24,7 @@ else
         </thead>
         <tbody>
             @foreach (var team in teams)
-            {
+            {                
                 <tr>
                     <td>@team.Id</td>
                     <td>@team.Name</td>
@@ -35,98 +32,39 @@ else
                     <td><button class="btn btn-primary" name="Edit" @onclick="@(e => EditClick(@team.Id))">Edit</button></td>
                     <td><button class="btn btn-danger" name="Delete" @onclick="@(e => DeleteClick(@team.Id))">Delete</button></td>
                 </tr>
+                
             }
         </tbody>
     </table>
 }
 
 @code {
-    [Parameter]
-    public string PageType { get; set; }
-
-
-    public RenderFragment ChildContent { get; set; }
-    private TeamViewModel EditObject = new TeamViewModel();
-
-
     private TeamViewModel[] teams;
 
-    private static string server = "https://localhost:44304";
-    private string list { get { return $"{server}/api/{PageType}"; } }
-    private string find { get { return $"{server}/api/{PageType}/find"; } }
-    private string update { get { return $"{server}/api/{PageType}"; } }
-    private string delete { get { return $"{server}/api/{PageType}/delete"; } }
-
-    protected override async Task OnInitializedAsync()
+    private void SetData()
     {
-        await SetData();
-        ChildContent = CreateDynamicComponent("Team");
-    }
-
-    RenderFragment CreateDynamicComponent(string ptype) => builder =>
-    {
-        var editPage = $"BlazorWeb.Pages.{ptype}.Edit";
-        builder.OpenComponent(1, Type.GetType(editPage));
-        builder.CloseComponent();
-
-    };
-
-    public async Task<bool> SetData()
-    {
-        teams = await Http.GetJsonAsync<TeamViewModel[]>($"{list}");
+        teams = (IEnumerable<TeamViewModel>)AppState.ListData;
 
         StateHasChanged();
-
-        return true;
+    }
+    private void DeleteClick(long id)
+    {
+        AppState.ChooseModelForDelete(id);
     }
 
-    private async Task<bool> DeleteClick(long id)
+    private void EditClick(long id)
     {
-        var deleteObject = new TeamViewModel() { Id = id };
-
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{delete}", deleteObject);
-
-        await SetData();
-
-        return true;
-    }
-    private async Task<bool> EditClick(long id)
-    {
-        EditObject = await Http.GetJsonAsync<TeamViewModel>($"{find}/{id}");
-
-        AppState.SetModelForEdit(EditObject);
-
-        return true;
-    }
-
-    private async Task<bool> CreateNew()
-    {
-        EditObject = new TeamViewModel();
-
-        await SetData();
-
-        return true;
-    }
-
-    private async Task<bool> CreateOrUpdateObject()
-    {
-
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", AppState.EditModel);
-        await SetData();
-
-        return true;
-
+        AppState.ChooseModelForEdit(id);
     }
 
     protected override void OnInitialized()
     {
-        AppState.ModelReadyToSave += CreateOrUpdateObject;
+        AppState.ListDataChanged += SetData;
     }
 
     public void Dispose()
     {
-        AppState.ModelReadyToSave -= CreateOrUpdateObject;
+        AppState.ListDataChanged -= SetData;
     }
-
 
 }

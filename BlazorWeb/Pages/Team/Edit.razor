@@ -1,8 +1,5 @@
 ﻿
-@inject AppState AppState
-@inject HttpClient Http
-@implements IDisposable
-@using Services.ViewModels
+@inherits EditBase
 
 @if (EditObject == null || EditObject.Id == 0)
 {
@@ -23,42 +20,3 @@ else
     <button class="btn btn-primary" type="submit">Submit</button>
 </EditForm>
 
-@code {
-    [Parameter]
-    public TeamViewModel EditObject { get; set; } = new TeamViewModel();
-
-    private async Task<bool> CreateNew()
-    {
-        EditObject = new TeamViewModel();
-
-        return true;
-    }
-
-
-    private async Task<bool> CreateOrUpdateModel()
-    {
-
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{AppState.TeamUpdateURL}", EditObject);
-
-        AppState.UpdateModel();
-
-        return true;
-
-    }
-
-    public void ModelSelected()
-    {
-        EditObject = (TeamViewModel)AppState.EditModel;
-        StateHasChanged();
-    }
-
-    protected override void OnInitialized()
-    {
-        AppState.ModelSelected += ModelSelected;
-    }
-
-    public void Dispose()
-    {
-        AppState.ModelSelected -= ModelSelected;
-    }
-}

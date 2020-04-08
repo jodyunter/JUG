@@ -1,71 +1,8 @@
 ﻿@page "/listedit/{PageType}"
 
-@inject HttpClient Http
-@inject AppState AppState
-@implements IDisposable
+@inherits ListEditBase
 
 @EditContent
 
 @ListContent
 
-
-
-@code {
-    [Parameter]
-    public string PageType { get; set; }
-
-
-    public RenderFragment EditContent { get; set; }
-    public RenderFragment ListContent { get; set; }
-
-    private static string server = "https://localhost:44304";
-    private string list { get { return $"{server}/api/{PageType}"; } }
-    private string find { get { return $"{server}/api/{PageType}/find"; } }
-    private string update { get { return $"{server}/api/{PageType}"; } }
-    private string delete { get { return $"{server}/api/{PageType}/delete"; } }
-
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        var pageType = PageType.ToLower();
-
-        var editPage = $"BlazorWeb.Pages.{pageType}.Edit";
-        var listPage = $"BlazorWeb.Pages.{pageType}.List";
-    
-        EditContent = CreateBasicContent(editPage);
-        ListContent = CreateBasicContent(listPage);
-        await SetData();
-    }
-
-    RenderFragment CreateBasicContent(string ptype) => builder =>
-    {
-        builder.OpenComponent(1, Type.GetType(ptype));
-        builder.CloseComponent();
-
-    };
-
-
-    public async Task<bool>
-    SetData()
-    {
-
-    AppState.SetListData();
-
-    StateHasChanged();
-
-    return true;
-    }
-
-    protected override void OnInitialized()
-    {
-    AppState.ModelUpdated += SetData;
-    }
-
-    public void Dispose()
-    {
-    AppState.ModelUpdated -= SetData;
-    }
-
-
-    }

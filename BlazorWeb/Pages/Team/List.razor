@@ -1,8 +1,5 @@
 ﻿
-@inject AppState AppState
-@inject HttpClient Http
-@implements IDisposable
-@using Services.ViewModels
+@inherits ListBase
 
 
 <h3>Current Teams</h3>
@@ -37,53 +34,4 @@ else
             }
         </tbody>
     </table>
-}
-
-@code {
-    private TeamViewModel[] data;
-
-    protected override async Task OnInitializedAsync()
-    {
-
-        await SetData();
-    }
-
-    private async Task<bool> SetData()
-    {
-        data = await Http.GetJsonAsync<TeamViewModel[]>($"{AppState.TeamListURL}");
-
-        StateHasChanged();
-
-        return true;
-    }
-    private async Task<bool> DeleteClick(long id)
-    {
-        var deleteObject = new ViewModel() { Id = id };
-
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{AppState.TeamDeleteURL}", deleteObject);
-
-        await SetData();
-
-        return true;
-    }
-
-    private async Task<bool> EditClick(long id)
-    {
-        var selectedObject = await Http.GetJsonAsync<TeamViewModel>($"{AppState.TeamFindURL}/{id}");
-
-        AppState.SetModelForEdit(selectedObject);
-
-        return true;
-    }
-
-    protected override void OnInitialized()
-    {
-        AppState.ReloadListData += SetData;
-    }
-
-    public void Dispose()
-    {
-        AppState.ReloadListData -= SetData;
-    }
-
 }

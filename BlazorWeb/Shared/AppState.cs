@@ -9,11 +9,12 @@ namespace BlazorWeb
     public class AppState
     {
         public string ServerURL { get { return "https://localhost:44304"; } }
-        public string TeamListURL { get { return $"{ServerURL}/api/Team"; } }
-        public string TeamFindURL { get { return $"{ServerURL}/api/Team/find"; } }
-        public string TeamUpdateURL { get { return $"{ServerURL}/api/Team"; } }
-        public string TeamDeleteURL { get { return $"{ServerURL}/api/Team/delete"; } }
+        public string ListURL { get { return $"{ServerURL}/api/{CurrentPageType}"; } }
+        public string FindURL { get { return $"{ServerURL}/api/{CurrentPageType}/find"; } }
+        public string UpdateURL { get { return $"{ServerURL}/api/{CurrentPageType}"; } }
+        public string DeleteURL { get { return $"{ServerURL}/api/{CurrentPageType}/delete"; } }
 
+        public string CurrentPageType { get; set; }
         public ViewModel EditModel { get; set; }        
 
         public event Action ModelSelected;
@@ -21,7 +22,7 @@ namespace BlazorWeb
         public event Func<Task<bool>> ReloadListData;               
 
         public void SetModelForEdit(ViewModel model)
-        {
+        {            
             EditModel = model;
             NotifyModelSelected();
         }

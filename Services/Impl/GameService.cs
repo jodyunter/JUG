@@ -14,10 +14,10 @@ namespace Services.Impl
     public class GameService : BaseService, IGameService
     {        
         public ITeamService TeamService { get; set; }
-        public IDataService<GameDAO> GameDataService { get; set; }
+        public IGameDataService GameDataService { get; set; }
         public IDataService<TeamDAO> TeamDataService { get; set; }
 
-        public GameService(IMapperConfig config, ITeamService teamService, IDataService<GameDAO> data, IDataService<TeamDAO> teamData) : base(config)
+        public GameService(IMapperConfig config, ITeamService teamService, IGameDataService data, IDataService<TeamDAO> teamData) : base(config)
         {
             TeamService = teamService;
             GameDataService = data;
@@ -30,7 +30,9 @@ namespace Services.Impl
             var homeTeam = TeamService.GetDomainObjectById(home.Id);
             var awayTeam = TeamService.GetDomainObjectById(away.Id);
 
-            var gameNo = 1; //need a way to get this
+            var mostRecentGameNumber = GameDataService.MostRecentGameNumber();
+
+            var gameNo = mostRecentGameNumber+1; //need a way to get this
             var day = 1; //need a way to get this
             var year = 1; //need a way to get this
             var canTie = true; //need a way to get this
@@ -86,10 +88,7 @@ namespace Services.Impl
                 var newAwayTeam = TeamDataService.GetById(gameModel.AwayId);
                 //check if null
                 gameDAO.Away = newAwayTeam;
-            }
-
-            
-
+            }          
 
             return null;
             

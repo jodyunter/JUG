@@ -7,7 +7,7 @@ namespace Data.Impl
 {
     public class BaseDataService<TEntity> : IDataService<TEntity> where TEntity :class, IDAOObject
     {
-        private JUGContext db;        
+        protected JUGContext db;        
 
         public BaseDataService()
         {                     

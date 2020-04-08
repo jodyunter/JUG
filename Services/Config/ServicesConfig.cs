@@ -17,10 +17,11 @@ namespace Services.Config
             services.AddDbContext<JUGContext>(ServiceLifetime.Singleton);
             services.AddSingleton<IMapperConfig, MapperConfig>();
 
-            services.AddSingleton<IGameDataService, GameDataService> ();
-
+            services.AddSingleton<IGameDataService, GameDataService> ();          
             services.AddSingleton<IDataService<TeamDAO>, BaseDataService<TeamDAO>>();
+
             services.AddSingleton<ITeamService, TeamService>();
+            services.AddSingleton<IGameService, GameService>();
 
             return services;
         }

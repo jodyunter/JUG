@@ -1,13 +1,14 @@
 ﻿
 @inject AppState AppState
+@inject HttpClient Http
 @implements IDisposable
-@using Services.ViewModels.Teams
+@using Services.ViewModels
 
 
-<h1>Current Teams</h1>
+<h3>Current Teams</h3>
 
 
-@if (teams == null)
+@if (data == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -23,8 +24,8 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var team in teams)
-            {                
+            @foreach (var team in data)
+            {
                 <tr>
                     <td>@team.Id</td>
                     <td>@team.Name</td>
@@ -32,39 +33,57 @@ else
                     <td><button class="btn btn-primary" name="Edit" @onclick="@(e => EditClick(@team.Id))">Edit</button></td>
                     <td><button class="btn btn-danger" name="Delete" @onclick="@(e => DeleteClick(@team.Id))">Delete</button></td>
                 </tr>
-                
+
             }
         </tbody>
     </table>
 }
 
 @code {
-    private TeamViewModel[] teams;
+    private TeamViewModel[] data;
 
-    private void SetData()
+    protected override async Task OnInitializedAsync()
     {
-        teams = (IEnumerable<TeamViewModel>)AppState.ListData;
+
+        await SetData();
+    }
+
+    private async Task<bool> SetData()
+    {
+        data = await Http.GetJsonAsync<TeamViewModel[]>($"{AppState.TeamListURL}");
 
         StateHasChanged();
+
+        return true;
     }
-    private void DeleteClick(long id)
+    private async Task<bool> DeleteClick(long id)
     {
-        AppState.ChooseModelForDelete(id);
+        var deleteObject = new ViewModel() { Id = id };
+
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{AppState.TeamDeleteURL}", deleteObject);
+
+        await SetData();
+
+        return true;
     }
 
-    private void EditClick(long id)
+    private async Task<bool> EditClick(long id)
     {
-        AppState.ChooseModelForEdit(id);
+        var selectedObject = await Http.GetJsonAsync<TeamViewModel>($"{AppState.TeamFindURL}/{id}");
+
+        AppState.SetModelForEdit(selectedObject);
+
+        return true;
     }
 
     protected override void OnInitialized()
     {
-        AppState.ListDataChanged += SetData;
+        AppState.ReloadListData += SetData;
     }
 
     public void Dispose()
     {
-        AppState.ListDataChanged -= SetData;
+        AppState.ReloadListData -= SetData;
     }
 
 }

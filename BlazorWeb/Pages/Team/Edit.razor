@@ -1,11 +1,19 @@
 ﻿
 @inject AppState AppState
+@inject HttpClient Http
 @implements IDisposable
-@using Services.ViewModels.Teams
+@using Services.ViewModels
 
-<h3>TeamEdit</h3>
+@if (EditObject == null || EditObject.Id == 0)
+{
+    <h3>Create New Team</h3>
+}
+else
+{
+    <h3>Modify @EditObject.Name</h3>
+}
 
-<EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateObject">
+<EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateModel">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <button class="btn btn-secondary" @onclick="@(e => CreateNew())">Create New</button>
@@ -21,20 +29,20 @@
 
     private async Task<bool> CreateNew()
     {
-        EditObject = new TeamViewModel();        
+        EditObject = new TeamViewModel();
 
         return true;
     }
 
 
-    private async Task<bool> CreateOrUpdateObject()
+    private async Task<bool> CreateOrUpdateModel()
     {
-        EditObject.TeamType = TeamType.BaseTeam;
 
-        AppState.SetModelForUpdate(EditObject);
+        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{AppState.TeamUpdateURL}", EditObject);
+
+        AppState.UpdateModel();
 
         return true;
-
 
     }
 

@@ -4,10 +4,6 @@
 @inject AppState AppState
 @implements IDisposable
 
-@using Services.ViewModels.Teams
-
-<h1>Current Teams</h1>
-
 @EditContent
 
 @ListContent
@@ -22,22 +18,21 @@
     public RenderFragment EditContent { get; set; }
     public RenderFragment ListContent { get; set; }
 
-    private TeamViewModel EditObject = new TeamViewModel();
-
-
-    private object[] data;
-
     private static string server = "https://localhost:44304";
     private string list { get { return $"{server}/api/{PageType}"; } }
     private string find { get { return $"{server}/api/{PageType}/find"; } }
     private string update { get { return $"{server}/api/{PageType}"; } }
     private string delete { get { return $"{server}/api/{PageType}/delete"; } }
 
-    private string editPage { get { return $"BlazorWeb.Pages.Team.Edit"; } }
-    private string listPage { get { return $"BlazorWeb.Pages.Team.List"; } }
+
 
     protected override async Task OnInitializedAsync()
     {
+        var pageType = PageType.ToLower();
+
+        var editPage = $"BlazorWeb.Pages.{pageType}.Edit";
+        var listPage = $"BlazorWeb.Pages.{pageType}.List";
+    
         EditContent = CreateBasicContent(editPage);
         ListContent = CreateBasicContent(listPage);
         await SetData();
@@ -51,68 +46,26 @@
     };
 
 
-    public async Task<bool> SetData()
-    {
-        data = await Http.GetJsonAsync<object[]>($"{list}");
-
-        AppState.SetListData(data);
-
-        StateHasChanged();
-
-        return true;
-    }
-
-    private async Task<bool> DeleteModel(long id)
-    {
-        var deleteObject = new TeamViewModel() { Id = id };
-
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{delete}", deleteObject);
-
-        await SetData();
-
-        return true;
-    }
-    private async Task<bool> EditModel(long id)
-    {
-        EditObject = await Http.GetJsonAsync<TeamViewModel>($"{find}/{id}");
-
-        AppState.SetModelForEdit(EditObject);
-
-        return true;
-    }
-
-    private async Task<bool> CreateNew()
-    {
-        EditObject = new TeamViewModel();
-
-        await SetData();
-
-        return true;
-    }
-
-    private async Task<bool> CreateOrUpdateModel()
+    public async Task<bool>
+    SetData()
     {
 
-        await HttpClientJsonExtensions.PostJsonAsync(Http, $"{update}", AppState.EditModel);
-        await SetData();
+    AppState.SetListData();
 
-        return true;
+    StateHasChanged();
 
+    return true;
     }
 
     protected override void OnInitialized()
     {
-        AppState.ModelReadyToSave += CreateOrUpdateModel;
-        AppState.ModelSelectedToEdit += EditModel;
-        AppState.ModelSelectedToDelete += DeleteModel;
+    AppState.ModelUpdated += SetData;
     }
 
     public void Dispose()
     {
-        AppState.ModelReadyToSave -= CreateOrUpdateModel;
-        AppState.ModelSelectedToEdit -= EditModel;
-        AppState.ModelSelectedToDelete -= DeleteModel;
+    AppState.ModelUpdated -= SetData;
     }
 
 
-}
+    }

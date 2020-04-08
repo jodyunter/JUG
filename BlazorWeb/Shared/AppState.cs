@@ -2,54 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Services.ViewModels;
 
 namespace BlazorWeb
 {
     public class AppState
     {
-        public object EditModel { get; set; }
-        public object[] ListData { get; set; }
+        public string ServerURL { get { return "https://localhost:44304"; } }
+        public string TeamListURL { get { return $"{ServerURL}/api/Team"; } }
+        public string TeamFindURL { get { return $"{ServerURL}/api/Team/find"; } }
+        public string TeamUpdateURL { get { return $"{ServerURL}/api/Team"; } }
+        public string TeamDeleteURL { get { return $"{ServerURL}/api/Team/delete"; } }
+
+        public ViewModel EditModel { get; set; }        
 
         public event Action ModelSelected;
-        public event Action ListDataChanged;
-        public event Func<Task<bool>> ModelReadyToSave;
-        
-        public event Func<long, Task<bool>> ModelSelectedToEdit;
-        public event Func<long, Task<bool>> ModelSelectedToDelete;
+        public event Func<Task<bool>> ModelUpdated;
+        public event Func<Task<bool>> ReloadListData;               
 
-        public void SetModelForEdit(object model)
+        public void SetModelForEdit(ViewModel model)
         {
             EditModel = model;
             NotifyModelSelected();
         }
 
-        public void SetModelForUpdate(object model)
+        public void SetListData()
         {
-            EditModel = model;
-            NotifyModelReadyForUpdate();
-        }
+            NotifyReloadListData();
+        }        
 
-        public void ChooseModelForEdit(long id)
+        public void UpdateModel()
         {
-            NotifyModelChosenForEdit(id);
-        }
-
-        public void ChooseModelForDelete(long id)
-        {
-            NotifyModelChosenForDelete(id);
-        }
-
-        public void SetListData(object[] data)
-        {
-            ListData = data;            
-
-            NotifyListDataChanged();
+            NotifyModelUpdated();
         }
 
         private void NotifyModelSelected() => ModelSelected?.Invoke();
-        private void NotifyModelReadyForUpdate() => ModelReadyToSave?.Invoke();
-        private void NotifyModelChosenForEdit(long id) => ModelSelectedToEdit?.Invoke(id);
-        private void NotifyModelChosenForDelete(long id) => ModelSelectedToDelete?.Invoke(id);
-        private void NotifyListDataChanged() => ListDataChanged?.Invoke();
+        private void NotifyModelUpdated() => ModelUpdated?.Invoke();                
+        private void NotifyReloadListData() => ReloadListData?.Invoke();
+        
     }
 }

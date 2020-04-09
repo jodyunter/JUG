@@ -16,7 +16,7 @@ namespace JUG.ConsoleUI.App
         public ITeamService TeamService { get; set; }
         
         public IDataService<TeamDAO> TeamDataService { get; set; }
-        public IDataService<GameDAO> GameDataService { get; set; }
+        public GameDataService GameDataService { get; set; }
         public MapperConfig AutoMapperConfig { get; set; }
         public JUGContext db { get; set; }
 
@@ -45,7 +45,7 @@ namespace JUG.ConsoleUI.App
         public void SetupDataServices()
         {
             TeamDataService = new BaseDataService<TeamDAO>();
-            GameDataService = new BaseDataService<GameDAO>();
+            GameDataService = new GameDataService();
         }
 
         public void SetupServices()

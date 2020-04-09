@@ -16,7 +16,9 @@ namespace Services.Config
         public IList<Team> TeamDAOToTeam(IList<TeamDAO> teamDAO);
         public IList<TeamViewModel> TeamToTeamViewModel(IList<Team> teams);
         public Game GameDAOToGame(GameDAO gameDAO);
+        public IList<Game> GameDAOToGame(IList<GameDAO> gameDAO);
         public GameDAO GameToGameDAO(Game game);
-        public GameViewModel GameToGameViewModel(Game game);      
+        public GameViewModel GameToGameViewModel(Game game);
+        public IList<GameViewModel> GameToGameViewModel(IList<Game> games);
     }
 }

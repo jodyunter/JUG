@@ -131,6 +131,15 @@ namespace Services.Config
             return gameDAO;
         }
 
+        public IList<Game> GameDAOToGame(IList<GameDAO> gameDAO)
+        {
+            return gameDAO.Select(x => GameDAOToGame(x)).ToList();
+        }
+
+        public IList<GameViewModel> GameToGameViewModel(IList<Game> games)
+        {
+            return games.Select(x => GameToGameViewModel(x)).ToList();
+        }
     }    
 }
 

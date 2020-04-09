@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+using System.Linq;
 using Data;
 using Data.DAO;
 using Domain.Games;
@@ -103,6 +102,22 @@ namespace Services.Impl
             gameDAO.Period = game.Period;
             gameDAO.HomeShots = game.HomeStats.Shots;
             gameDAO.AwayShots = game.AwayStats.Shots;
+        }
+
+        public IList<IGameViewModel> GetAll()
+        {
+            var gameDAOs = GameDataService.GetAll();
+
+            var games = Mapper.GameDAOToGame(gameDAOs);
+
+            var models = Mapper.GameToGameViewModel(games);
+
+            return models.ToList<IGameViewModel>();
+        }
+
+        public void CreateRoundOfGames()
+        {
+            throw new NotImplementedException();
         }
     }
 }

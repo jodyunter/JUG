@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
 
             return Ok(teamService.GetById(id.Value));
         }
-                
+
         [HttpPost]
         public ActionResult<ITeamViewModel> PostTeam(TeamViewModel teamModel)
         {

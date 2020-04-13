@@ -29,6 +29,11 @@ namespace WebAPI.Controllers
         {
             IList<TeamViewModel> teams = teamService.GetAll();
 
+            if (teams == null || teams.Count == 0)
+            {
+                return NoContent();
+            }
+
             return Ok(teams);
         }
 

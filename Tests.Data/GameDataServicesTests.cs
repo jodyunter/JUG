@@ -8,11 +8,11 @@ using Xunit;
 namespace Tests.Data
 {
     public class GameDataServicesTests
-    {        
+    {
+        private JUGContext db = new JUGContext();
         [Fact]
         public void ShouldAddGames()
-        {
-            var db = new JUGContext();
+        {            
 
             DbHelper.DeleteData(db);
 

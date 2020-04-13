@@ -10,10 +10,11 @@ namespace Tests.Data
 {
     public class TeamDataServicesTests
     {
+        private JUGContext db = new JUGContext();
+
         [Fact]
         public void ShouldAddTeam()
-        {
-            var db = new JUGContext();
+        {            
 
             DbHelper.DeleteData(db);
 
@@ -36,7 +37,6 @@ namespace Tests.Data
         [Fact]
         public void ShouldUpdateTeam()
         {
-            var db = new JUGContext();
 
             DbHelper.DeleteData(db);
 

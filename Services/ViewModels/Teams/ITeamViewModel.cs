@@ -5,10 +5,9 @@ using System.Text;
 
 namespace Services.ViewModels.Teams
 {
-    public interface ITeamViewModel
+    public interface ITeamViewModel:IViewModel
     {                
-        public TeamType TeamType { get; set; }
-        long Id { get; set; }
+        public TeamType TeamType { get; set; }        
         string Name { get; set; }
         int Skill { get; set; }
     }

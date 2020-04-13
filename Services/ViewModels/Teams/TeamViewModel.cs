@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services.ViewModels.Teams
 {
-    public class TeamViewModel : ITeamViewModel
+    public class TeamViewModel : BaseViewModel, ITeamViewModel
     {
         public long Id { get; set; } = -1;
         public string Name { get; set; }

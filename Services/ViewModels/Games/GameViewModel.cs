@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Services.ViewModels.Games
 {
-    public class GameViewModel : IViewModel, IGameViewModel
-    {
-        public long Id { get; set; }
+    public class GameViewModel : BaseViewModel, IGameViewModel
+    {        
         public int GameNo { get; set; }
         public int Day { get; set; }
         public int Year { get; set; }

@@ -119,5 +119,15 @@ namespace Services.Impl
         {
             throw new NotImplementedException();
         }
+
+        public IGameViewModel GetById(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(long id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -55,7 +55,10 @@ namespace Services.Impl
 
             var dao = Mapper.DomainToDAO(domain);
 
-            DataService.Save(dao);
+            using (var db = new JUGContext())
+            {
+                DataService.Save(dao, db);
+            }
         }
 
 
@@ -70,14 +73,14 @@ namespace Services.Impl
 
         public TDomainObject GetDomainObjectById(long id)
         {
-            var dao = DataService.GetById(id);
+            var dao = DataService.GetById(id, new JUGContext());
 
             return Mapper.DAOToDomain(dao);
         }
 
         public IList<TViewModel> GetAll()
         {
-            var daos = DataService.GetAll();
+            var daos = DataService.GetAll(new JUGContext());
 
             var domains = MapDAOToDomain(daos);
 
@@ -92,9 +95,12 @@ namespace Services.Impl
             if (id != null)
             {
                 var actualId = (long)id;
-
-                var daoObject = DataService.GetById(actualId);
-                DataService.Delete(daoObject);
+                using (var db = new JUGContext())
+                {
+                    var daoObject = DataService.GetById(actualId, db);
+                    DataService.Delete(daoObject, db);
+                    db.SaveChanges();
+                }
             }
         }
 

@@ -47,12 +47,15 @@ namespace Services.Impl
 
             //map the model
             var gameDAO = Mapper.DomainToDAO(game);
+            using (var db = new JUGContext())
+            {
+                //when creating we need to make sure we populate the child objects with registered data objects
+                gameDAO.Home = TeamDataService.GetById(home.Id, db);
+                gameDAO.Away = TeamDataService.GetById(away.Id, db);
 
-            //when creating we need to make sure we populate the child objects with registered data objects
-            gameDAO.Home = TeamDataService.GetById(home.Id);
-            gameDAO.Away = TeamDataService.GetById(away.Id);
-
-            GameDataService.Create(gameDAO);
+                GameDataService.Create(gameDAO, db);
+                GameDataService.SaveChanges(db);
+            }
             gameModel.Id = gameDAO.Id;
 
             return gameModel;
@@ -60,39 +63,47 @@ namespace Services.Impl
 
         public IGameViewModel Play(IGameViewModel gameModel, Random random)
         {
+            using (var db = new JUGContext())
+            {
 
-            var gameDAO = GameDataService.GetById(gameModel.Id);
+                var gameDAO = GameDataService.GetById(gameModel.Id, db);
 
-            var game = Mapper.DAOToDomain(gameDAO);
+                var game = Mapper.DAOToDomain(gameDAO);
 
-            game.Play(new Random());
+                game.Play(new Random());
 
-            MapGameResults(gameDAO, game);
+                MapGameResults(gameDAO, game);
 
-            GameDataService.Save(gameDAO);
+                GameDataService.Save(gameDAO, db);
+                GameDataService.SaveChanges(db);
 
-            var resultModel = Mapper.DomainToViewModel(game);
+                var resultModel = Mapper.DomainToViewModel(game);
 
-            return resultModel;
+                return resultModel;
+            }            
+            
         }
 
         public IGameViewModel Update(IGameViewModel gameModel)
         {
-            var gameDAO = GameDataService.GetById(gameModel.Id);
-
-            if (gameDAO.Home.Id != gameModel.HomeId)
+            using (var db = new JUGContext())
             {
-                var newHomeTeam = TeamDataService.GetById(gameModel.HomeId);
-                //check if null
-                gameDAO.Home = newHomeTeam;
+                var gameDAO = GameDataService.GetById(gameModel.Id, db);
+
+                if (gameDAO.Home.Id != gameModel.HomeId)
+                {
+                    var newHomeTeam = TeamDataService.GetById(gameModel.HomeId, db);
+                    //check if null
+                    gameDAO.Home = newHomeTeam;
+                }
+
+                if (gameDAO.Away.Id != gameModel.AwayId)
+                {
+                    var newAwayTeam = TeamDataService.GetById(gameModel.AwayId, db);
+                    //check if null
+                    gameDAO.Away = newAwayTeam;
+                }
             }
-
-            if (gameDAO.Away.Id != gameModel.AwayId)
-            {
-                var newAwayTeam = TeamDataService.GetById(gameModel.AwayId);
-                //check if null
-                gameDAO.Away = newAwayTeam;
-            }          
 
             return null;
             

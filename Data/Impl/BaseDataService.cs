@@ -13,47 +13,48 @@ namespace Data.Impl
         {                     
         }
 
-        public void Create(TEntity o)
+        public BaseDataService(JUGContext DB)
         {
-            using (db = new JUGContext())
-            {
-                db.Add(o);
-                db.SaveChanges();
-            }
+            this.db = DB;
         }
 
-        public TEntity GetById(long Id)
+        public void Create(TEntity o, JUGContext db)
         {
-            using (db = new JUGContext())
-            {
-                return db.Set<TEntity>().Where(t => t.Id == Id).FirstOrDefault();
-            }
+            db.Add(o);                            
         }
 
-        public void Save(TEntity o)
+        public TEntity GetById(long Id, JUGContext db)
         {
-            using (db = new JUGContext())
-            {
-                db.Update(o);
-                db.SaveChanges();
-            }
+            return db.Set<TEntity>().Where(t => t.Id == Id).FirstOrDefault();
         }
 
-        public IList<TEntity> GetAll()
+        public void Save(TEntity o, JUGContext db)
         {
-            using (db = new JUGContext())
-            {
-                return db.Set<TEntity>().ToList();
-            }
+            db.Update(o);                            
         }
 
-        public void Delete(TEntity o)
+        public IList<TEntity> GetAll(JUGContext db)
         {
-            using (db = new JUGContext())
-            {
-                db.Set<TEntity>().Remove(o);
-                db.SaveChanges();
-            }
+            return db.Set<TEntity>().ToList();            
+        }
+
+        public void Delete(TEntity o, JUGContext db)
+        {
+            db.Set<TEntity>().Remove(o);                            
+        }
+
+        public void DeleteAll(JUGContext db)
+        {
+
+                db.Games.RemoveRange(db.Games);
+                db.Teams.RemoveRange(db.Teams);
+            
+        }
+
+        public void SaveChanges(JUGContext db)
+        {
+            db.SaveChanges();
+
         }
 
     }

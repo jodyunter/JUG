@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 namespace Services.Config
 {
-    public interface IMapperConfig
+    public interface IMapperConfig<TViewModel, TDomain, TDAOObject>
     {
+        //remove the multiple ones, it is now taken care of in the service
         public Team TeamViewModelToTeam(TeamViewModel teamViewModel);
         public TeamDAO TeamToTeamDAO(Team team);
         public Team TeamDAOToTeam(TeamDAO team);
@@ -20,5 +21,7 @@ namespace Services.Config
         public GameDAO GameToGameDAO(Game game);
         public GameViewModel GameToGameViewModel(Game game);
         public IList<GameViewModel> GameToGameViewModel(IList<Game> games);
+
+        public 
     }
 }

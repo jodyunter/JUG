@@ -10,7 +10,7 @@ using Services.Config;
 
 namespace Services.Impl
 {
-    public class GameService : BaseService, IGameService
+    public class GameService : BaseService<GameDAO>, IGameService
     {        
         public ITeamService TeamService { get; set; }
         public IGameDataService GameDataService { get; set; }

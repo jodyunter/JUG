@@ -12,73 +12,41 @@ using System.Linq;
 
 namespace Services.Impl
 {
-    public class TeamService : BaseService, ITeamService
-    {
-        IDataService<TeamDAO> teamDS;        
+    public class TeamService : BaseService<TeamViewModel, Team, TeamDAO>, ITeamService
+    {          
 
         public TeamService(IMapperConfig config, IDataService<TeamDAO> data):base(config)
         {
-            teamDS = data;
+            DataService = data;
         }
 
-        public ITeamViewModel Create(string name, int skill)
+        public override TeamDAO CreateDAO(TeamViewModel newModel)
         {
-            var teamDAO = new TeamDAO() { Name = name, Skill = skill, TeamType = Domain.Teams.TeamType.BaseTeam };
+            var model = newModel;
 
-            teamDS.Create(teamDAO);
+            var dao = Mapper.TeamToTeamDAO(Mapper.TeamViewModelToTeam(model));
 
-            var team = Mapper.TeamDAOToTeam(teamDAO);
-
-            return Mapper.TeamToTeamViewModel(team);
+            return dao;
         }
 
-        public void Update(ITeamViewModel model)
+        public override Team MapDAOToDomain(TeamDAO dao)
         {
-            var team = Mapper.TeamViewModelToTeam((TeamViewModel)model);                       
-
-            var teamDAO = Mapper.TeamToTeamDAO(team);            
-
-            teamDS.Save(teamDAO);
+            return Mapper.TeamDAOToTeam(dao);
         }
 
-
-        public ITeamViewModel GetById(long id)
+        public override TeamDAO MapDomainToDAO(Team domain)
         {
-            var teamObject = GetDomainObjectById(id);
-
-            var teamView = Mapper.TeamToTeamViewModel((Team)teamObject);
-            
-            return teamView;
+            return Mapper.TeamToTeamDAO(domain);
         }
 
-        public ITeam GetDomainObjectById(long id)
+        public override TeamViewModel MapDomainToViewModel(Team domain)
         {
-            var teamDAO = teamDS.GetById(id);
-
-            return Mapper.TeamDAOToTeam(teamDAO);
+            return Mapper.TeamToTeamViewModel(domain);
         }
 
-        public IList<ITeamViewModel> GetAll()
+        public override Team MapViewModelToDomain(TeamViewModel model)
         {
-            var teamDAOs = teamDS.GetAll();
-
-            var teams = Mapper.TeamDAOToTeam(teamDAOs);
-
-            var models = Mapper.TeamToTeamViewModel(teams);
-
-            return models.ToList<ITeamViewModel>();
-
-        }
-
-        public void Delete(long? id)
-        {
-            if (id != null)
-            {
-                var teamId = (long)id;
-
-                var daoObject = teamDS.GetById(teamId);
-                teamDS.Delete(daoObject);                
-            }
+            return Mapper.TeamViewModelToTeam(model);
         }
     }
 }

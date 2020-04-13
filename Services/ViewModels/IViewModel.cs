@@ -6,6 +6,7 @@ namespace Services.ViewModels
 {
     public interface IViewModel
     {
+        long Id { get; set; }
         int MessageLevel { get; set; }
         string Message { get; set; }
     }

@@ -9,32 +9,37 @@ namespace Tests.Data
 {
     public class GameDataServicesTests
     {
-        private JUGContext db = new JUGContext();
         [Fact]
         public void ShouldAddGames()
-        {            
+        {
+            using (var db = new JUGContext())
+            {
 
-            DbHelper.DeleteData(db);
+                var teamDataService = new BaseDataService<TeamDAO>();
+                var gameDataService = new GameDataService();
 
-            Assert.Empty(db.Teams);
+                Assert.Empty(teamDataService.GetAll(db));
+                Assert.Empty(gameDataService.GetAll(db));
 
-            DbHelper.AddSomeTeams(10);
+                DbHelper.AddSomeTeams(10, db);
 
-            var game = new GameDAO();
-            game.Home = db.Teams.Where(t => t.Name == "Team 1").FirstOrDefault();
-            game.Away = db.Teams.Where(t => t.Name == "Team 6").FirstOrDefault();
-            game.AwayScore = 5;
-            game.HomeScore = 6;
-            game.IsComplete = true;
-            game.IsStarted = true;
-            game.CanTie = true;
+                var game = new GameDAO();
+                game.Home = teamDataService.GetAll(db).Where(t => t.Name == "Team 1").FirstOrDefault();
+                game.Away = teamDataService.GetAll(db).Where(t => t.Name == "Team 6").FirstOrDefault();
+                game.AwayScore = 5;
+                game.HomeScore = 6;
+                game.IsComplete = true;
+                game.IsStarted = true;
+                game.CanTie = true;
 
-            var service = new GameDataService();
+                gameDataService.Create(game, db);
 
-            service.Save(game);
 
-            Assert.Single(db.Games);
+                Assert.Single(db.Games.Local);
 
+            }
         }
+
+
     }
 }

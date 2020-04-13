@@ -7,21 +7,12 @@ namespace Data.Impl
 {
     public class BaseDataService<TEntity> : IDataService<TEntity> where TEntity :class, IDAOObject
     {
-        protected JUGContext db;        
+       
 
         public BaseDataService()
         {                     
         }
 
-        public BaseDataService(JUGContext DB)
-        {
-            this.db = DB;
-        }
-
-        public void Create(TEntity o, JUGContext db)
-        {
-            db.Add(o);                            
-        }
 
         public TEntity GetById(long Id, JUGContext db)
         {
@@ -45,17 +36,18 @@ namespace Data.Impl
 
         public void DeleteAll(JUGContext db)
         {
-
                 db.Games.RemoveRange(db.Games);
-                db.Teams.RemoveRange(db.Teams);
-            
+                db.Teams.RemoveRange(db.Teams);            
         }
 
         public void SaveChanges(JUGContext db)
         {
             db.SaveChanges();
-
         }
 
+        public void Create(TEntity entity, JUGContext db)
+        {
+            db.Add(entity);            
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace Services.Impl
             DataService = data;
             TeamDataService = teamData;
         }
+        //should over write the basic create method
         public IGameViewModel Create(ITeamViewModel home, ITeamViewModel away)
         {
             var gameModel = new GameViewModel(1, 1, 1, home.Id, home.Name, 0, away.Id, away.Name, 0, false, false, "1st");

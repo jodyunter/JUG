@@ -23,7 +23,14 @@ namespace Services.Impl
 
         public TViewModel Create(TViewModel newModel)
         {
-            var dao = Mapper.DomainToDAO(Mapper.ViewModelToDomain(newModel));
+            var dao = Mapper.DomainToDAO(Mapper.ViewModelToDomain(newModel));            
+
+            using (var db = new JUGContext())
+            {
+
+                DataService.Create(dao, db);
+                db.SaveChanges();                
+            }
 
             var domain = Mapper.DAOToDomain(dao);
 
@@ -51,13 +58,14 @@ namespace Services.Impl
 
         public void Update(TViewModel model)
         {
-            var domain = Mapper.ViewModelToDomain(model);
+            var domain = Mapper.ViewModelToDomain(model);            
 
             var dao = Mapper.DomainToDAO(domain);
 
             using (var db = new JUGContext())
             {
                 DataService.Save(dao, db);
+                DataService.SaveChanges(db);
             }
         }
 

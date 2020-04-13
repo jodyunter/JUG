@@ -5,30 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services;
-using Services.ViewModels.Games;
 using Services.ViewModels.Teams;
 
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/game")]
-    public class GameController : ControllerBase
+    [Route("api/team")]
+    public class TeamController : ControllerBase
     {
-        private readonly ILogger<GameController> _logger;
+        private readonly ILogger<TeamController> _logger;
 
-        private IGameService gameService { get; set; }
+        private ITeamService teamService { get; set; }
 
-        public GameController(ILogger<GameController> logger,IGameService gameService)
+        public TeamController(ILogger<TeamController> logger, ITeamService teamService)
         {
-            this.gameService = gameService;
+            this.teamService = teamService;
             _logger = logger;
         }
-        
+
         [HttpGet]
         [HttpGet("list")]
         public IActionResult List()
         {
-            IList<IGameViewModel> teams = gameService.GetAll();
+            IList<TeamViewModel> teams = teamService.GetAll();
 
             return Ok(teams);
         }
@@ -42,30 +41,30 @@ namespace WebAPI.Controllers
                 return NoContent();
             }
 
-            return Ok(gameService.GetById(id.Value));
+            return Ok(teamService.GetById(id.Value));
         }
 
         [HttpPost]
-        public ActionResult<IGameViewModel> PostTeam(GameViewModel gameModel)
+        public ActionResult<ITeamViewModel> PostTeam(TeamViewModel teamModel)
         {
-            IGameViewModel newGameModel = gameModel;
+            ITeamViewModel newTeam = teamModel;
 
-            if (gameModel.Id == 0)
+            if (teamModel.Id == 0)
             {
-               // newTeam = .Create(teamModel.Name, teamModel.Skill);
+                newTeam = teamService.Create(teamModel);
             }
             else
             {
-                gameService.Update(gameModel);
+                teamService.Update(teamModel);
             }
 
-            return Ok(newGameModel);            
+            return Ok(newTeam);
         }
 
         [HttpPost("delete/")]
-        public IActionResult DeleteTeam(GameViewModel gameModel)
+        public IActionResult DeleteTeam(TeamViewModel teamModel)
         {
-            gameService.Delete(gameModel.Id);
+            teamService.Delete(teamModel.Id);
 
             return Ok();
         }

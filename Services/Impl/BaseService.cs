@@ -11,53 +11,30 @@ namespace Services.Impl
 {
     public abstract class BaseService<TViewModel, TDomainObject, TDAOObject> : IBaseService<TViewModel, TDomainObject, TDAOObject> where TViewModel:IViewModel where TDomainObject : IDomainObject where TDAOObject:IDAOObject
     {
-        public IMapperConfig Mapper { get; set; }
+        public IJUGMapper<TViewModel, TDomainObject, TDAOObject> Mapper { get; set; }
         public IDataService<TDAOObject> DataService { get; set; }
 
-        public BaseService(IMapperConfig config)
+        public abstract  void CreateMapper();
+        public BaseService()
         {
-            Mapper = config;
+            CreateMapper();
         }
+        
 
-        public override TDomainObject MapDAOToDomain(TDAOObject dao)
-        {
-            return Mapper.TeamDAOToTeam(dao);
-        }
-
-        public override TeamDAO MapDomainToDAO(Team domain)
-        {
-            return Mapper.TeamToTeamDAO(domain);
-        }
-
-        public override TeamViewModel MapDomainToViewModel(Team domain)
-        {
-            return Mapper.TeamToTeamViewModel(domain);
-        }
-
-        public override Team MapViewModelToDomain(TeamViewModel model)
-        {
-            return Mapper.TeamViewModelToTeam(model);
-        }
-
-        public abstract TDAOObject CreateDAO(TViewModel newModel);
-        public abstract TDomainObject MapDAOToDomain(TDAOObject dao);        
-        public abstract TViewModel MapDomainToViewModel(TDomainObject domain);
-        public abstract TDomainObject MapViewModelToDomain(TViewModel model);
-        public abstract TDAOObject MapDomainToDAO(TDomainObject domain);
         public TViewModel Create(TViewModel newModel)
         {
-            var dao = CreateDAO(newModel);
+            var dao = Mapper.DomainToDAO(Mapper.ViewModelToDomain(newModel));
 
-            var domain = MapDAOToDomain(dao);
+            var domain = Mapper.DAOToDomain(dao);
 
-            return MapDomainToViewModel(domain);
+            return Mapper.DomainToViewModel(domain);
         }
 
         public IList<TDomainObject> MapDAOToDomain(IList<TDAOObject> daos)
         {
             var data = new List<TDomainObject>();
 
-            daos.ToList().ForEach(i => { data.Add(MapDAOToDomain(i)); });
+            daos.ToList().ForEach(i => { data.Add(Mapper.DAOToDomain(i)); });
 
             return data;
 
@@ -66,7 +43,7 @@ namespace Services.Impl
         {
             var data = new List<TViewModel>();
 
-            domains.ToList().ForEach(i => { data.Add(MapDomainToViewModel(i)); });
+            domains.ToList().ForEach(i => { data.Add(Mapper.DomainToViewModel(i)); });
 
             return data;
         }
@@ -74,9 +51,9 @@ namespace Services.Impl
 
         public void Update(TViewModel model)
         {
-            var domain = MapViewModelToDomain(model);
+            var domain = Mapper.ViewModelToDomain(model);
 
-            var dao = MapDomainToDAO(domain);
+            var dao = Mapper.DomainToDAO(domain);
 
             DataService.Save(dao);
         }
@@ -86,7 +63,7 @@ namespace Services.Impl
         {
             var domain = GetDomainObjectById(id);
 
-            var model = MapDomainToViewModel(domain);
+            var model = Mapper.DomainToViewModel(domain);
 
             return model;
         }
@@ -95,7 +72,7 @@ namespace Services.Impl
         {
             var dao = DataService.GetById(id);
 
-            return MapDAOToDomain(dao);
+            return Mapper.DAOToDomain(dao);
         }
 
         public IList<TViewModel> GetAll()

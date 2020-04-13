@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services
+namespace Services.Config
 {
-    public interface ITeamService:IBaseService<TeamViewModel, Team, TeamDAO>
-    {        
+    public class TeamMapper : BaseObjectMapper<TeamViewModel, Team, TeamDAO>
+    {
     }
-    
 }

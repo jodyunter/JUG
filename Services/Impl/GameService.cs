@@ -10,16 +10,21 @@ using Services.Config;
 
 namespace Services.Impl
 {
-    public class GameService : BaseService<GameDAO>, IGameService
+    public class GameService : BaseService<GameViewModel, Game, GameDAO>, IGameService
     {        
-        public ITeamService TeamService { get; set; }
-        public IGameDataService GameDataService { get; set; }
+        public ITeamService TeamService { get; set; }     
+        public IGameDataService GameDataService { get { return (IGameDataService)DataService; } }
         public IDataService<TeamDAO> TeamDataService { get; set; }
 
-        public GameService(IMapperConfig config, ITeamService teamService, IGameDataService data, IDataService<TeamDAO> teamData) : base(config)
+        public override void CreateMapper()
+        {
+            Mapper = new GameMapper();
+        }
+        
+        public GameService(ITeamService teamService, IGameDataService data, IDataService<TeamDAO> teamData) : base()
         {
             TeamService = teamService;
-            GameDataService = data;
+            DataService = data;
             TeamDataService = teamData;
         }
         public IGameViewModel Create(ITeamViewModel home, ITeamViewModel away)
@@ -41,7 +46,7 @@ namespace Services.Impl
             var game = new Game(null, gameNo, day, year, 1, homeTeam, new GameTeamStats(0,0), awayTeam, new GameTeamStats(0,0), false, false, canTie, minPeriods, maxOverTimePeriods, GameType.Exhibition);
 
             //map the model
-            var gameDAO = Mapper.GameToGameDAO(game);
+            var gameDAO = Mapper.DomainToDAO(game);
 
             //when creating we need to make sure we populate the child objects with registered data objects
             gameDAO.Home = TeamDataService.GetById(home.Id);
@@ -58,7 +63,7 @@ namespace Services.Impl
 
             var gameDAO = GameDataService.GetById(gameModel.Id);
 
-            var game = Mapper.GameDAOToGame(gameDAO);
+            var game = Mapper.DAOToDomain(gameDAO);
 
             game.Play(new Random());
 
@@ -66,7 +71,7 @@ namespace Services.Impl
 
             GameDataService.Save(gameDAO);
 
-            var resultModel = Mapper.GameToGameViewModel(game);
+            var resultModel = Mapper.DomainToViewModel(game);
 
             return resultModel;
         }
@@ -104,30 +109,10 @@ namespace Services.Impl
             gameDAO.AwayShots = game.AwayStats.Shots;
         }
 
-        public IList<IGameViewModel> GetAll()
-        {
-            var gameDAOs = GameDataService.GetAll();
-
-            var games = Mapper.GameDAOToGame(gameDAOs);
-
-            var models = Mapper.GameToGameViewModel(games);
-
-            return models.ToList<IGameViewModel>();
-        }
-
         public void CreateRoundOfGames()
         {
             throw new NotImplementedException();
         }
 
-        public IGameViewModel GetById(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(long id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

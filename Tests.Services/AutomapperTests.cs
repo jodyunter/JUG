@@ -12,7 +12,8 @@ namespace Tests.Services
         public void ShouldAutoMap()
         {
             //configuration is asserted in the constructor.
-            var next = new MapperConfig();
+            //var next = new MapperConfig();
+            var teamMapper = new TeamMapper(); //currently we map everything in each map            
             Assert.True(true);
         }
     }

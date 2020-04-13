@@ -15,38 +15,14 @@ namespace Services.Impl
     public class TeamService : BaseService<TeamViewModel, Team, TeamDAO>, ITeamService
     {          
 
-        public TeamService(IMapperConfig config, IDataService<TeamDAO> data):base(config)
-        {
-            DataService = data;
+        public TeamService(IDataService<TeamDAO> data):base()
+        {            
+            DataService = data;            
         }
 
-        public override TeamDAO CreateDAO(TeamViewModel newModel)
+        public override void CreateMapper()
         {
-            var model = newModel;
-
-            var dao = Mapper.TeamToTeamDAO(Mapper.TeamViewModelToTeam(model));
-
-            return dao;
-        }
-
-        public override Team MapDAOToDomain(TeamDAO dao)
-        {
-            return Mapper.TeamDAOToTeam(dao);
-        }
-
-        public override TeamDAO MapDomainToDAO(Team domain)
-        {
-            return Mapper.TeamToTeamDAO(domain);
-        }
-
-        public override TeamViewModel MapDomainToViewModel(Team domain)
-        {
-            return Mapper.TeamToTeamViewModel(domain);
-        }
-
-        public override Team MapViewModelToDomain(TeamViewModel model)
-        {
-            return Mapper.TeamViewModelToTeam(model);
+            Mapper = new TeamMapper();
         }
     }
 }

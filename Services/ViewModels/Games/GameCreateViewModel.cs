@@ -14,14 +14,5 @@ namespace Services.ViewModels.Games
 
         public GameViewModel SelectedGame { get; set; }
 
-        public IList<TeamViewModel> GetHomeList()
-        {
-            return TeamList.Where(x => x.Name != AwayTeam.Name).ToList();
-        }
-
-        public IList<TeamViewModel> GetAwayList()
-        {
-            return TeamList.Where(x => x.Name != HomeTeam.Name).ToList();
-        }
     }
 }

@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             }
             else
             {
-                teamService.Update(model);
+                gameService.Update(model);
             }
 
             return Ok(newTeam);
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
         [HttpPost("delete")]
         public IActionResult Delete(GameViewModel model)
         {
-            teamService.Delete(model.Id);
+            gameService.Delete(model.Id);
 
             return Ok();
         }

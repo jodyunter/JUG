@@ -1,0 +1,22 @@
+﻿
+@inherits EditBase
+
+@if (EditObject == null || EditObject.Id == 0)
+{
+    <h3>Add a Game</h3>
+}
+else
+{
+    <h3>Modify @EditObject.Name</h3>
+}
+
+<EditForm Model="@EditObject" OnValidSubmit="CreateOrUpdateModel">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <button class="btn btn-secondary" @onclick="@(e => CreateNew())">Create New</button>
+    <InputText id="name" @bind-Value="EditObject.Name" />
+    <InputNumber id="skill" @bind-Value="EditObject.Skill" />
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</EditForm>
+

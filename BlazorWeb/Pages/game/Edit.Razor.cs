@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorWeb.Shared.Services.DTO;
+using Microsoft.AspNetCore.Components;
 using Services.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -6,19 +7,19 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BlazorWeb.Pages.team
+namespace BlazorWeb.Pages.game
 {
     public partial class EditBase:ComponentBase,IDisposable
     {
 
-        [Parameter] public TeamViewModel EditObject { get; set; } = new TeamViewModel();
+        [Parameter] public GameCreateViewModel EditObject { get; set; } = new GameCreateViewModel();
         [Inject] AppState AppState { get; set; }
         [Inject] HttpClient Http { get; set; }
 
 
         public  async Task<bool> CreateNew()
         {
-            EditObject = new TeamViewModel();
+            EditObject = new GameCreateViewModel();
 
             return true;
         }

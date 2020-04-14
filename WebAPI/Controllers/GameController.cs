@@ -11,15 +11,17 @@ namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("api/team")]
-    public class TeamController : ControllerBase
+    public class GameController : ControllerBase
     {
         private readonly ILogger<TeamController> _logger;
 
         private ITeamService teamService { get; set; }
+        private IGameService gameService { get; set; }
 
-        public TeamController(ILogger<TeamController> logger, ITeamService teamService)
+        public GameController(ILogger<TeamController> logger, IGameService gameService, ITeamService teamService)
         {
             this.teamService = teamService;
+            this.gameService = gameService;
             _logger = logger;
         }
 
@@ -27,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet("list")]
         public IActionResult List()
         {
-            IList<TeamViewModel> teams = teamService.GetAll();
+            IList<GameViewModel> teams = gameService.GetAll();
 
             return Ok(teams);
         }
@@ -41,7 +43,7 @@ namespace WebAPI.Controllers
                 return NoContent();
             }
 
-            return Ok(teamService.GetById(id.Value));
+            return Ok(gameService.GetById(id.Value));
         }
 
         [HttpPost]

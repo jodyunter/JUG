@@ -26,7 +26,6 @@ namespace BlazorWeb.Pages.game
 
         public async Task<bool> CreateOrUpdateModel()
         {
-
             await HttpClientJsonExtensions.PostJsonAsync(Http, $"{AppState.UpdateURL}", EditObject);
 
             AppState.UpdateModel();
@@ -39,7 +38,7 @@ namespace BlazorWeb.Pages.game
 
         public void ModelSelected()
         {
-            EditObject = (GameCreateViewModel)AppState.EditModel;
+            //need to edit the model appropriately
             StateHasChanged();
         }
 

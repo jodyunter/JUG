@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace BlazorWeb.Shared.Services.DTO
+namespace Services.ViewModels
 {
-    public class GameCreateViewModel
+    public class GameCreateViewModel:ViewModel
     {
         public IList<TeamViewModel> TeamList { get; set; }
 
         public TeamViewModel HomeTeam { get; set; } = new TeamViewModel();
         public TeamViewModel AwayTeam { get; set; } = new TeamViewModel();
+
+        public GameViewModel SelectedGame { get; set; }
 
         public IList<TeamViewModel> GetHomeList()
         {

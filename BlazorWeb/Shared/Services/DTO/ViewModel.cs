@@ -7,6 +7,8 @@ namespace Services.ViewModels
 {
     public class ViewModel
     {
-        public long Id { get; set; }        
+        public long Id { get; set; }       
+        public string Message { get; set; }
+        public int MessageLevel { get; set; }
     }
 }

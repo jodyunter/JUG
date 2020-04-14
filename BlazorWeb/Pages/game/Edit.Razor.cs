@@ -31,10 +31,7 @@ namespace BlazorWeb.Pages.game
 
             AppState.UpdateModel();
 
-            if (EditObject.Id == 0)
-            {
-                EditObject = new TeamViewModel();
-            }
+           
 
             return true;
 
@@ -42,7 +39,7 @@ namespace BlazorWeb.Pages.game
 
         public void ModelSelected()
         {
-            EditObject = (TeamViewModel)AppState.EditModel;
+            EditObject = (GameCreateViewModel)AppState.EditModel;
             StateHasChanged();
         }
 

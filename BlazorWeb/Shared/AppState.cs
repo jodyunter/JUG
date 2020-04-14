@@ -13,6 +13,7 @@ namespace BlazorWeb
         public string FindURL { get { return $"{ServerURL}/api/{CurrentPageType}/find"; } }
         public string UpdateURL { get { return $"{ServerURL}/api/{CurrentPageType}"; } }
         public string DeleteURL { get { return $"{ServerURL}/api/{CurrentPageType}/delete"; } }
+        public string DataForCreateURL { get { return $"{ServerURL}/api/{CurrentPageType}/createdata"; } }
 
         public string CurrentPageType { get; set; }
         public ViewModel EditModel { get; set; }        

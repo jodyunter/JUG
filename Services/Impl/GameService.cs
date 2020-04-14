@@ -28,12 +28,11 @@ namespace Services.Impl
             TeamDataService = teamData;
         }
         //should over write the basic create method
-        public IGameViewModel Create(ITeamViewModel home, ITeamViewModel away)
-        {
-            var gameModel = new GameViewModel(1, 1, 1, home.Id, home.Name, 0, away.Id, away.Name, 0, false, false, "1st");
+        public IGameViewModel Create(long homeId, long awayId)
+        {          
 
-            var homeTeam = TeamService.GetDomainObjectById(home.Id);
-            var awayTeam = TeamService.GetDomainObjectById(away.Id);
+            var homeTeam = TeamService.GetDomainObjectById(homeId);
+            var awayTeam = TeamService.GetDomainObjectById(awayId);
 
             var mostRecentGameNumber = GameDataService.MostRecentGameNumber();
 
@@ -51,15 +50,15 @@ namespace Services.Impl
             using (var db = new JUGContext())
             {
                 //when creating we need to make sure we populate the child objects with registered data objects
-                gameDAO.Home = TeamDataService.GetById(home.Id, db);
-                gameDAO.Away = TeamDataService.GetById(away.Id, db);
+                gameDAO.Home = TeamDataService.GetById(homeId, db);
+                gameDAO.Away = TeamDataService.GetById(awayId, db);
 
                 GameDataService.Create(gameDAO, db);
                 GameDataService.SaveChanges(db);
             }
-            gameModel.Id = gameDAO.Id;
+            game.Id = gameDAO.Id;
 
-            return gameModel;
+            return Mapper.DomainToViewModel(game);
         }
 
         public IGameViewModel Play(IGameViewModel gameModel, Random random)

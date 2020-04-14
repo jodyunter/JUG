@@ -17,6 +17,12 @@ namespace BlazorWeb.Pages.game
         [Inject] HttpClient Http { get; set; }
 
 
+        protected override async Task OnInitializedAsync()
+        {
+
+            EditObject = await Http.GetJsonAsync<GameCreateViewModel>($"{AppState.DataForCreateURL}");
+
+        }
         public  async Task<bool> CreateNew()
         {
             EditObject = new GameCreateViewModel();
@@ -43,7 +49,7 @@ namespace BlazorWeb.Pages.game
         }
 
         protected override void OnInitialized()
-        {
+        {            
             AppState.ModelSelected += ModelSelected;
         }
 

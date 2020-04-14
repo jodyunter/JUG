@@ -10,7 +10,7 @@ namespace Services
 {
     public interface IGameService:IBaseService<GameViewModel, Game, GameDAO>
     {
-        IGameViewModel Create(ITeamViewModel home, ITeamViewModel away);
+        IGameViewModel Create(long homeId, long awayId);
         IGameViewModel Play(IGameViewModel game, Random random);                
         void CreateRoundOfGames();
 

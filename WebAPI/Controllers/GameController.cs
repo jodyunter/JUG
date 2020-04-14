@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services;
+using Services.ViewModels.Games;
 using Services.ViewModels.Teams;
 
 namespace WebAPI.Controllers
@@ -47,26 +48,26 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ITeamViewModel> Post(TeamViewModel teamModel)
+        public ActionResult<IGameViewModel> Post(GameViewModel model)
         {
-            ITeamViewModel newTeam = teamModel;
+            IGameViewModel newTeam = model;
 
-            if (teamModel.Id == 0)
+            if (model.Id == 0)
             {
-                newTeam = teamService.Create(teamModel);
+                newTeam = gameService.Create(model.HomeId, model.AwayId);
             }
             else
             {
-                teamService.Update(teamModel);
+                teamService.Update(model);
             }
 
             return Ok(newTeam);
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(TeamViewModel teamModel)
+        public IActionResult Delete(GameViewModel model)
         {
-            teamService.Delete(teamModel.Id);
+            teamService.Delete(model.Id);
 
             return Ok();
         }

@@ -15,6 +15,7 @@ namespace Domain.Tables
         int GamesPlayed { get; set; }
         int GoalsFor { get; set; }
         int GoalsAgainst { get; set; }
+        int GoalDifference { get; set; }
         int ShotsFor { get; set; }
         int ShotsAgainst { get; set; }
     }

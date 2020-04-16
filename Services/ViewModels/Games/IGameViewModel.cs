@@ -1,8 +1,7 @@
 ﻿namespace Services.ViewModels.Games
 {
     public interface IGameViewModel:IViewModel
-    {
-        long Id { get; set; }
+    {        
         long AwayId { get; set; }
         string Away { get; set; }
         int AwayScore { get; set; }

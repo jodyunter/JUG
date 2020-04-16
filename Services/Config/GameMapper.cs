@@ -10,6 +10,7 @@ namespace Services.Config
 {
     public class GameMapper:BaseObjectMapper<GameViewModel, Game, GameDAO>
     {
+        //eventually we want specialty team mappers to figure this out for each type of team
         TeamMapper teamMapper;
 
         public GameMapper()
@@ -24,9 +25,9 @@ namespace Services.Config
                 gameDAO.Day,
                 gameDAO.Year,
                 gameDAO.Period,
-                teamMapper.DAOToDomain(gameDAO.Home),
+                teamMapper.DAOToDomain((TeamDAO)gameDAO.Home),
                 new GameTeamStats(gameDAO.HomeScore, gameDAO.HomeShots),
-                teamMapper.DAOToDomain(gameDAO.Away),
+                teamMapper.DAOToDomain((TeamDAO)gameDAO.Away),
                 new GameTeamStats(gameDAO.AwayScore, gameDAO.AwayShots),
                 gameDAO.IsStarted,
                 gameDAO.IsComplete,

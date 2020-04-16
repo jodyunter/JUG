@@ -12,6 +12,8 @@ namespace Data
     public class JUGContext:DbContext
     {
         public DbSet<TeamDAO> Teams { get; set; }
+        public DbSet<StandingsTeam> StandingsTeams { get; set; }
+        public DbSet<CompetitionDAO> Competitions { get; set; }
         public DbSet<GameDAO> Games { get; set; }
         public string ConnectionString { get; set; }
 

@@ -24,7 +24,9 @@ namespace Services.Config
                 cfg.CreateMap<Team, TeamDAO>();
                 cfg.CreateMap<TeamDAO, Team>();
                 cfg.CreateMap<TeamDAO, ITeam>().As<Team>();
+                //if you only get the interface, then map it to the base implementation
                 cfg.CreateMap<ITeam, TeamDAO>();
+                cfg.CreateMap<ITeamDAO, Team>();
             });
 
             Config.AssertConfigurationIsValid();

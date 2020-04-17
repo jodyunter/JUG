@@ -15,9 +15,30 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Data.DAO.CompetitionDAO", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Competitions");
+                });
 
             modelBuilder.Entity("Data.DAO.GameDAO", b =>
                 {
@@ -38,13 +59,13 @@ namespace Data.Migrations
                     b.Property<bool>("CanTie")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("CompetitionId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Day")
                         .HasColumnType("int");
 
                     b.Property<int>("GameNo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameType")
                         .HasColumnType("int");
 
                     b.Property<long?>("HomeId")
@@ -78,6 +99,8 @@ namespace Data.Migrations
 
                     b.HasIndex("AwayId");
 
+                    b.HasIndex("CompetitionId");
+
                     b.HasIndex("HomeId");
 
                     b.ToTable("Games");
@@ -89,6 +112,10 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -102,6 +129,52 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("TeamDAO");
+                });
+
+            modelBuilder.Entity("Data.DAO.SeasonTeamDAO", b =>
+                {
+                    b.HasBaseType("Data.DAO.TeamDAO");
+
+                    b.Property<long?>("CompetitionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("GoalsAgainst")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoalsFor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OverTimeLoses")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OverTimeWins")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("RegulationLoses")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RegulationWins")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShotsAgainst")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShotsFor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Ties")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CompetitionId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasDiscriminator().HasValue("SeasonTeamDAO");
                 });
 
             modelBuilder.Entity("Data.DAO.GameDAO", b =>
@@ -110,9 +183,24 @@ namespace Data.Migrations
                         .WithMany()
                         .HasForeignKey("AwayId");
 
+                    b.HasOne("Data.DAO.CompetitionDAO", "Competition")
+                        .WithMany()
+                        .HasForeignKey("CompetitionId");
+
                     b.HasOne("Data.DAO.TeamDAO", "Home")
                         .WithMany()
                         .HasForeignKey("HomeId");
+                });
+
+            modelBuilder.Entity("Data.DAO.SeasonTeamDAO", b =>
+                {
+                    b.HasOne("Data.DAO.CompetitionDAO", "Competition")
+                        .WithMany()
+                        .HasForeignKey("CompetitionId");
+
+                    b.HasOne("Data.DAO.TeamDAO", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
                 });
 #pragma warning restore 612, 618
         }

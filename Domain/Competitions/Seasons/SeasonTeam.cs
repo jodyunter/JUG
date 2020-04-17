@@ -27,6 +27,6 @@ namespace Domain.Competitions.Seasons
         public int ShotsFor { get; set; }
         public int ShotsAgainst { get; set; }
         public int Wins { get { return RegulationWins + OverTimeWins; } set => throw new NotImplementedException(); }
-        public int Loses { get { return RegulationLoses + OverTimeLoses; set => throw new NotImplementedException(); }
+        public int Loses { get { return RegulationLoses + OverTimeLoses; } set => throw new NotImplementedException(); }
     }
 }

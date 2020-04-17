@@ -11,10 +11,10 @@ namespace Data.DAO
         public int Day { get; set; }
         public int Year { get; set; }
         public int Period { get; set; }        
-        public ITeamDAO Home { get; set; }
+        public TeamDAO Home { get; set; }
         public int HomeScore { get; set; }
         public int HomeShots { get; set; }        
-        public ITeamDAO Away { get; set; }
+        public TeamDAO Away { get; set; }
         public int AwayScore { get; set; }
         public int AwayShots { get; set; }
         public bool IsStarted { get; set; }
@@ -22,7 +22,7 @@ namespace Data.DAO
         public bool CanTie { get; set; }
         public int NormalPeriods { get; set; }
         public int MaxOverTimePeriods { get; set; }        
-        public ICompetitionDAO Competition { get; set; }
+        public CompetitionDAO Competition { get; set; }
 
         public GameDAO() { }
         public GameDAO(long id, int gameNo, int day, int year, int period, TeamDAO home, int homeScore, int homeShots, TeamDAO away, int awayScore, int awayShots, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods)

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Data.DAO
 {
-    public class CompetitionDAO : ICompetitionDAO
+    public class CompetitionDAO:DAOObject
     {
-        public long Id { get; set; }
+        public string Name { get; set; }
         public int Year { get; set; }
         public int Number { get; set; }
     }

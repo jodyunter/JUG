@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data.DAO
+namespace Domain.Competitions
 {
-    public interface ICompetitionDAO:IDAOObject
+    public interface ICompetition:IDomainObject
     {
         string Name { get; set; }
         int Year { get; set; }

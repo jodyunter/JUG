@@ -1,5 +1,4 @@
-﻿using Domain.Teams;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +9,11 @@ namespace Data.DAO
         string Name { get; set; }
         int Skill { get; set; }
         TeamType TeamType { get; set; }
+    }
+
+    public enum TeamType
+    {
+        BaseTeam = 0,
+        SeasonTeam = 1
     }
 }

@@ -1,9 +1,4 @@
-﻿using Domain.Teams;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Data.DAO
+﻿namespace Data.DAO
 {
     public class TeamDAO:ITeamDAO
     {

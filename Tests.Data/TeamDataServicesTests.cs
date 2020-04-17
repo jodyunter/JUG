@@ -1,9 +1,6 @@
 using Data;
-using System;
 using Xunit;
-using System.Linq;
 using Data.DAO;
-using Domain.Teams;
 using Data.Impl;
 
 namespace Tests.Data

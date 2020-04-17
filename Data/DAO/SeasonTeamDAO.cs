@@ -1,15 +1,11 @@
-﻿using Domain.Teams;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Data.DAO
 {
-    public class TableTeamDAO : ITeamDAO
+    public class SeasonTeamDAO : ICompetitionTeamDAO
     {
         public long Id { get; set; }
         public ICompetitionDAO Competition { get; set; }
-        public ITeamDAO ParentTeam { get; set; }
+        public ITeamDAO Parent { get; set; }
         //we use both because we want a link AND a record of what it was for the season
         public string Name { get; set; }
         public int Skill { get; set; }

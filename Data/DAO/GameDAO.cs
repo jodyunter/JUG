@@ -1,10 +1,9 @@
-﻿using Domain.Games;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Data.DAO
-{
+{    
     public class GameDAO:IDAOObject
     {
         public long Id { get; set; }
@@ -22,12 +21,11 @@ namespace Data.DAO
         public bool IsComplete { get; set; }
         public bool CanTie { get; set; }
         public int NormalPeriods { get; set; }
-        public int MaxOverTimePeriods { get; set; }
-        public GameType GameType { get; set; }
+        public int MaxOverTimePeriods { get; set; }        
         public ICompetitionDAO Competition { get; set; }
 
         public GameDAO() { }
-        public GameDAO(long id, int gameNo, int day, int year, int period, TeamDAO home, int homeScore, int homeShots, TeamDAO away, int awayScore, int awayShots, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods, GameType gameType)
+        public GameDAO(long id, int gameNo, int day, int year, int period, TeamDAO home, int homeScore, int homeShots, TeamDAO away, int awayScore, int awayShots, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods)
         {
             Id = id;
             GameNo = gameNo;
@@ -44,8 +42,7 @@ namespace Data.DAO
             IsComplete = isComplete;
             CanTie = canTie;
             NormalPeriods = normalPeriods;
-            MaxOverTimePeriods = maxOverTimePeriods;
-            GameType = gameType;
+            MaxOverTimePeriods = maxOverTimePeriods;            
         }
     }
 }

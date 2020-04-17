@@ -43,7 +43,7 @@ namespace Services.Impl
             var maxOverTimePeriods = 1; //need a way to get this
             var minPeriods = 3; //need a way to get this
 
-            var game = new Game(null, gameNo, day, year, 1, homeTeam, new GameTeamStats(0,0), awayTeam, new GameTeamStats(0,0), false, false, canTie, minPeriods, maxOverTimePeriods, GameType.Exhibition);
+            var game = new Game(null, gameNo, day, year, 1, homeTeam, new GameTeamStats(0,0), awayTeam, new GameTeamStats(0,0), false, false, canTie, minPeriods, maxOverTimePeriods);
 
             //map the model
             var gameDAO = Mapper.DomainToDAO(game);

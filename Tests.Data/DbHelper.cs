@@ -1,7 +1,6 @@
 ﻿using Data;
 using Data.DAO;
 using Data.Impl;
-using Domain.Teams;
 using System.Linq;
 
 namespace Tests.Data

@@ -1,18 +1,14 @@
 ﻿using Data.DAO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Text;
 
 namespace Data
 {
     public class JUGContext:DbContext
     {
         public DbSet<TeamDAO> Teams { get; set; }
-        public DbSet<StandingsTeam> StandingsTeams { get; set; }
+        public DbSet<SeasonTeamDAO> SeasonTeams { get; set; }
         public DbSet<CompetitionDAO> Competitions { get; set; }
         public DbSet<GameDAO> Games { get; set; }
         public string ConnectionString { get; set; }

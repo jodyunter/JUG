@@ -33,8 +33,7 @@ namespace Services.Config
                 gameDAO.IsComplete,
                 gameDAO.CanTie,
                 gameDAO.NormalPeriods,
-                gameDAO.MaxOverTimePeriods,
-                gameDAO.GameType);
+                gameDAO.MaxOverTimePeriods);                
 
             return game;
         }
@@ -77,8 +76,7 @@ namespace Services.Config
                 game.IsComplete,
                 game.CanTie,
                 game.NormalPeriods,
-                game.MaxOverTimePeriods,
-                game.GameType);
+                game.MaxOverTimePeriods);
 
             return gameDAO;
         }

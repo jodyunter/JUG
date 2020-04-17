@@ -17,8 +17,7 @@ namespace Domain.Games
         public ITeam Away { get; set; }
         public IGameTeamStats AwayStats { get; set; }
         bool IsStarted { get; set; }
-        bool IsComplete { get; set; }
-        GameType GameType { get; set; }
+        bool IsComplete { get; set; }        
 
 
     }

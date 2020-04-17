@@ -19,14 +19,13 @@ namespace Domain.Games
         public bool IsComplete { get; set; }
         public bool CanTie { get; set; }
         public int NormalPeriods { get; set; }
-        public int MaxOverTimePeriods { get; set; }
-        public GameType GameType { get; set; }        
+        public int MaxOverTimePeriods { get; set; }        
         [NotMapped] public IGameTeamStats HomeStats { get; set; }
         [NotMapped] public IGameTeamStats AwayStats { get; set; }
         
         public Game() { }
 
-        public Game(long? id, int gameNo, int day, int year, int period, ITeam home, IGameTeamStats homeStats, ITeam away, IGameTeamStats awayStats, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods, GameType gameType)
+        public Game(long? id, int gameNo, int day, int year, int period, ITeam home, IGameTeamStats homeStats, ITeam away, IGameTeamStats awayStats, bool isStarted, bool isComplete, bool canTie, int normalPeriods, int maxOverTimePeriods)
         {
             if (id != null) Id = id.Value;
 
@@ -40,8 +39,7 @@ namespace Domain.Games
             IsComplete = isComplete;
             CanTie = canTie;
             NormalPeriods = normalPeriods;
-            MaxOverTimePeriods = maxOverTimePeriods;
-            GameType = gameType;
+            MaxOverTimePeriods = maxOverTimePeriods;            
             HomeStats = homeStats;
             AwayStats = awayStats;
         }
